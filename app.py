@@ -93,27 +93,36 @@ header { visibility: hidden; }
     margin-top: 0px; 
     overflow: hidden;
 }
+
+/* MODERN BARRIO HEADER */
 .unified-header {
-    background: linear-gradient(135deg, rgba(255,0,0,0.8) 0%, rgba(100,0,0,0.9) 100%);
-    padding: 25px 20px;
+    background: linear-gradient(135deg, rgba(255,0,0,0.85) 0%, rgba(50,0,0,0.95) 100%);
+    padding: 30px 20px;
     text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
 }
 .header-text {
-    font-weight: 900; font-size: 1.4rem; color: white;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    letter-spacing: -1px;
-    margin-bottom: 10px;
+    font-weight: 900; 
+    font-size: 1.6rem; 
+    background: linear-gradient(to bottom, #ffffff 30%, #aaaaaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
 }
 .yt-pill {
     background: white; color: black !important;
-    padding: 8px 20px; border-radius: 50px;
+    padding: 10px 25px; border-radius: 50px;
     font-weight: 900; font-size: 0.8rem;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     transition: 0.3s;
     text-decoration: none;
+    display: inline-block;
 }
-.yt-pill:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255,255,255,0.4); }
+.yt-pill:hover { transform: scale(1.1) translateY(-2px); box-shadow: 0 0 35px rgba(255,255,255,0.4); }
 
 .form-body { padding: 30px 45px; }
 
@@ -129,7 +138,6 @@ header { visibility: hidden; }
 }
 input { background: rgba(255,255,255,0.05) !important; color: white !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 12px !important; }
 
-/* MODERN TYPOGRAPHY FOOTER */
 .footer-message {
     margin-top: 25px;
     padding: 40px 30px;
@@ -140,30 +148,15 @@ input { background: rgba(255,255,255,0.05) !important; color: white !important; 
     backdrop-filter: blur(15px);
 }
 .footer-title {
-    font-weight: 800; 
-    font-size: 1.6rem; 
-    color: #ff0000; 
-    margin-bottom: 15px; 
-    letter-spacing: 2px;
+    font-weight: 800; font-size: 1.6rem; color: #ff0000; margin-bottom: 15px; letter-spacing: 2px;
     text-shadow: 0 0 15px rgba(255,0,0,0.3);
 }
 .footer-text {
-    font-size: 1.05rem; 
-    font-weight: 300;
-    color: rgba(255,255,255,0.8); 
-    line-height: 1.7; 
-    letter-spacing: 0.5px;
+    font-size: 1.05rem; font-weight: 300; color: rgba(255,255,255,0.8); line-height: 1.7; letter-spacing: 0.5px;
 }
 .footer-highlight {
-    font-weight: 800; 
-    color: white; 
-    margin-top: 20px; 
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    opacity: 0.9;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 15px;
-    display: inline-block;
+    font-weight: 800; color: white; margin-top: 20px; font-size: 0.9rem; text-transform: uppercase; opacity: 0.9;
+    border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; display: inline-block;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -214,7 +207,6 @@ else:
             elif status == "duplicate": st.warning("Tus datos ya están registrados.")
             else: st.error("Completa los campos correctamente.")
         st.markdown('</div></div>', unsafe_allow_html=True)
-        
         st.markdown('''
             <div class="footer-message">
                 <div class="footer-title">GRACIAS POR TU COMPRA</div>
