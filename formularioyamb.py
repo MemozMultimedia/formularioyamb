@@ -91,15 +91,18 @@ header { visibility: hidden; }
     box-shadow: 0 0 25px rgba(255,0,0,0.8) !important;
     transform: scale(1.05);
 }
+/* Registration Button Styled as YouTube Pill */
 .stButton>button {
-    background: white !important; color: black !important;
-    border-radius: 12px !important; font-weight: 900 !important;
-    animation: pulseGlow 2s infinite ease-in-out !important;
+    background: #ff0000 !important; color: white !important;
+    border-radius: 5px !important; font-weight: 900 !important;
+    border: none !important; padding: 12px 30px !important;
+    box-shadow: 0 0 15px rgba(255,0,0,0.5) !important;
+    transition: 0.4s !important;
+    text-transform: uppercase !important;
 }
-@keyframes pulseGlow {
-    0% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
-    50% { box-shadow: 0 0 25px rgba(255,0,0,0.8); }
-    100% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+.stButton>button:hover {
+    box-shadow: 0 0 25px rgba(255,0,0,0.8) !important;
+    transform: scale(1.02) !important;
 }
 .social-footer { text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
 .social-icon { color: white; font-size: 1.2rem; margin: 0 15px; text-decoration: none; opacity: 0.6; transition: 0.3s; font-weight: 800; }
