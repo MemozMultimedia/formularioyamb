@@ -94,7 +94,6 @@ header { visibility: hidden; }
 
 .yt-pill:hover { transform: scale(1.1); box-shadow: 0 0 25px rgba(255, 255, 255, 0.5); }
 
-/* Insight Center Styling */
 .stat-card {
     background: rgba(255, 255, 255, 0.05);
     border-left: 4px solid #ff0000;
@@ -102,8 +101,6 @@ header { visibility: hidden; }
     border-radius: 12px;
     margin-bottom: 10px;
 }
-
-.stDataFrame { border-radius: 16px; overflow: hidden; border: 1px solid rgba(255,0,0,0.2); }
 
 .form-body { padding: 40px; }
 
@@ -148,18 +145,14 @@ if admin_mode:
             data = obtener_datos()
             c1, c2 = st.columns(2)
             with c1: st.markdown(f'<div class="stat-card"><h3>{len(data)}</h3><p>Miembros Totales</p></div>', unsafe_allow_html=True)
-            with c2: st.markdown(f'<div class="stat-card"><h3>{datetime.now().strftime("%d/%m")}</h3><p>×ltima Sincronización</p></div>', unsafe_allow_html=True)
-            
+            with c2: st.markdown(f'<div class="stat-card"><h3>{datetime.now().strftime("%d/%m")}</h3><p>Última Sincronización</p></div>', unsafe_allow_html=True)
             st.dataframe(data, use_container_width=True)
-            
-            # DOWNLOAD BUTTON
             st.markdown('<div class="download-box">', unsafe_allow_html=True)
             csv = data.to_csv(index=False).encode('utf-8')
-            st.download_button("📥 DESCARGAR BASE DE DATOS (CSV)", csv, "yamb_members_db.csv", "text/csv", use_container_width=True)
+            st.download_button("📥 DESCARGAR CSV", csv, "yamb_db.csv", "text/csv", use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
-        elif u or p: st.error("Acceso Denegado")
 else:
-    st.markdown("<h1 style='text-align: center; color: white; margin-bottom: 30px; font-weight:900;'>LA FAMILIA <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: white; margin-bottom: 30px; font-weight:900;'>ÚNETE A NUESTRA FAMILIA <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
 
     _, mid, _ = st.columns([1, 1.8, 1])
     with mid:
@@ -170,18 +163,16 @@ else:
                 <a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="yt-pill">CANAL OFICIAL YAMB TV ▶️</a>
             </div>
         ''', unsafe_allow_html=True)
-
         st.markdown('<div class="form-body">', unsafe_allow_html=True)
         with st.form("compact_form", clear_on_submit=True):
             n = st.text_input("Nombre completo", placeholder="Tu nombre aquí")
             c = st.text_input("Correo electrónico", placeholder="tucorreo@ejemplo.com")
             t = st.text_input("Teléfono", placeholder="WhatsApp")
-            o = st.text_input("¿Qué haces? (Ocupación)", placeholder="Ej: Mùsico, Diseñador...")
+            o = st.text_input("¿Qué haces? (Ocupación)", placeholder="Ej: Músico, Diseñador...")
             sub = st.form_submit_button("✅ UNIRME AHORA", use_container_width=True)
-
         if sub:
             status = guardar(n, c, t, o, datetime.now().strftime('%Y-%m-%d'))
             if status == "success": st.balloons(); st.success("¡Bienvenido a la verdadera vuelta!")
             elif status == "duplicate": st.warning("Tus datos ya están en la base.")
-            else: st.error("Completa los campos para entrar.")
+            else: st.error("Completa los campos correctamente.")
         st.markdown('</div></div>', unsafe_allow_html=True)
