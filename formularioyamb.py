@@ -82,26 +82,19 @@ input {
     color: white !important;
 }
 
-/* Premium Admin Toggle Styling */
-[data-testid="stSidebar"] {
-    background-color: rgba(0,0,0,0.6) !important;
-    backdrop-filter: blur(15px);
-}
-
-.st-emotion-cache-1vt458s { 
-    background: rgba(255,255,255,0.05) !important; 
-    padding: 10px; 
-    border-radius: 15px; 
-    border: 1px solid rgba(255,255,255,0.1);
+/* Top Admin Toggle Styling */
+.admin-top-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Navigation in Sidebar for a cleaner main UI
-with st.sidebar:
-    st.markdown("### ✨ PREMIUM PANEL")
-    admin_mode = st.toggle("🔐 Unlock Admin Mode")
-    st.markdown("--- ")
+# Admin access as a top-right toggle/button
+top_l, top_r = st.columns([8, 2])
+with top_r:
+    admin_mode = st.toggle("🔐 Unlock Admin")
 
 if admin_mode:
     st.markdown("<h2 style='text-align: center;'>📂 Insight Center</h2>", unsafe_allow_html=True)
