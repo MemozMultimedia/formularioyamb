@@ -94,37 +94,48 @@ header { visibility: hidden; }
     overflow: hidden;
 }
 
-/* MODERN BARRIO HEADER */
+/* MASTER URBAN BARRIO HEADER */
 .unified-header {
-    background: linear-gradient(135deg, rgba(255,0,0,0.85) 0%, rgba(50,0,0,0.95) 100%);
-    padding: 30px 20px;
+    background: linear-gradient(135deg, #220000 0%, #000000 100%);
+    padding: 35px 20px;
     text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: inset 0 0 20px rgba(255,255,255,0.05);
+    border-bottom: 2px solid #ff0000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    position: relative;
+}
+.unified-header::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; width: 100%; height: 2px;
+    background: linear-gradient(90deg, transparent, #ff0000, transparent);
+    box-shadow: 0 0 20px #ff0000;
 }
 .header-text {
     font-weight: 900; 
-    font-size: 1.6rem; 
-    background: linear-gradient(to bottom, #ffffff 30%, #aaaaaa 100%);
+    font-size: 1.8rem; 
+    background: linear-gradient(to bottom, #ffffff 50%, #888888 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 4px 15px rgba(0,0,0,0.5);
-    letter-spacing: 2px;
-    margin-bottom: 15px;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
+    letter-spacing: 4px;
+    margin-bottom: 20px;
     text-transform: uppercase;
+    font-style: italic;
 }
 .yt-pill {
-    background: white; color: black !important;
-    padding: 10px 25px; border-radius: 50px;
-    font-weight: 900; font-size: 0.8rem;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    transition: 0.3s;
+    background: #ff0000; color: white !important;
+    padding: 12px 30px; border-radius: 5px;
+    font-weight: 900; font-size: 0.85rem;
+    box-shadow: 0 0 15px rgba(255,0,0,0.4);
+    transition: 0.4s;
     text-decoration: none;
     display: inline-block;
+    border: 1px solid rgba(255,255,255,0.2);
+    text-transform: uppercase;
 }
-.yt-pill:hover { transform: scale(1.1) translateY(-2px); box-shadow: 0 0 35px rgba(255,255,255,0.4); }
+.yt-pill:hover { background: white; color: black !important; transform: scale(1.05); box-shadow: 0 0 25px white; }
 
-.form-body { padding: 30px 45px; }
+.form-body { padding: 40px 45px; }
 
 .stButton>button {
     background: white !important; color: black !important;
@@ -215,7 +226,7 @@ else:
                     CON TU COMPRA, APOYAS A JÓVENES TALENTOS EN LA MÙSICA Y EL ARTE, AYUDÁNDOLOS A CRECER, CREAR Y COMPARTIR SU PASIÓN CON EL MUNDO.
                 </div>
                 <div class="footer-highlight">
-                    COMPRASTE CON PROPÓSITO. APOYASTE EL TALENTO.
+                    COMPRASTE WITH PROPÓSITO. APOYASTE EL TALENTO.
                 </div>
             </div>
         ''', unsafe_allow_html=True)
