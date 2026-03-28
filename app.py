@@ -61,6 +61,7 @@ st.markdown("""
     color: white !important;
 }
 .main-card { background: rgba(0,0,0,0.5); padding: 30px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+.yamb-red { color: #ff0000; font-weight: bold; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -87,7 +88,7 @@ if admin_mode:
             st.error("❌ Credenciales incorrectas")
 
 else:
-    st.markdown("<h1 style='text-align: center;'>📋 Formulario YAMB Pro</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>Registrate y se parte de nuestra familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
