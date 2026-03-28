@@ -39,8 +39,8 @@ def obtener_datos():
 # =====================
 # UI MASTER BRANDING
 # =====================
-# Browser Tab Title Updated Here
-st.set_page_config(page_title="YAMB VIVIENDO LA EXPERIENCIA DEL BARRIO", page_icon="❌", layout="wide")
+# Browser Tab Title Fixed (Removed YAMB prefix)
+st.set_page_config(page_title="VIVIENDO LA EXPERIENCIA DEL BARRIO", page_icon="❌", layout="wide")
 
 st.markdown("""
 <style>
