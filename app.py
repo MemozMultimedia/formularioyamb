@@ -50,9 +50,10 @@ html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
     background-size: cover !important;
 }
 
-/* Eliminar espacios extra arriba */
+/* Ajuste de espacios para quitar la 'barra' sin sentido */
 .block-container { padding-top: 1rem !important; }
 header { visibility: hidden; }
+#root > div:nth-child(1) > div > div > div > div > section > div { padding-top: 0rem !important; }
 
 .main-card {
     background: rgba(0, 0, 0, 0.6);
@@ -62,7 +63,7 @@ header { visibility: hidden; }
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-    margin-top: 10px;
+    margin-top: -20px; /* Sube el formulario para cerrar el hueco */
 }
 
 .yamb-red { color: #ff0000; font-weight: bold; }
@@ -81,16 +82,16 @@ input {
 }
 
 @media (max-width: 768px) {
-    .main-card { padding: 25px; }
+    .main-card { padding: 25px; margin-top: 0px; }
     h1 { font-size: 1.8rem !important; }
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Navigation & Title combined to save space
+# Navigation & Admin Access (Restaurado)
 top_l, top_r = st.columns([9, 1])
 with top_r:
-    admin_mode = st.toggle("") # Solo el candado/toggle sin texto largo
+    admin_mode = st.toggle("🔐", value=False, help="Admin")
 
 if admin_mode:
     st.markdown("<h2 style='text-align: center; color: white;'>📂 Insight Center</h2>", unsafe_allow_html=True)
@@ -105,7 +106,7 @@ if admin_mode:
             st.dataframe(df, use_container_width=True)
         elif user or password: st.error("Invalid Credentials")
 else:
-    st.markdown("<h1 style='text-align: center; color: white;'>Regístrate y sé parte de nuestra familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: white; margin-bottom: 0px;'>Regístrate y sé parte de nuestra familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
     
     _, mid, _ = st.columns([1,2,1])
     with mid:
