@@ -55,10 +55,9 @@ st.markdown("""
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800;900&display=swap');
 html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
 
-/* REDUCE TOP SPACING */
 .block-container { padding-top: 1rem !important; padding-bottom: 1rem !important; }
 header { visibility: hidden; }
 
@@ -96,7 +95,7 @@ header { visibility: hidden; }
 }
 .unified-header {
     background: linear-gradient(135deg, rgba(255,0,0,0.8) 0%, rgba(100,0,0,0.9) 100%);
-    padding: 25px 20px; /* Reduced padding */
+    padding: 25px 20px;
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -116,7 +115,7 @@ header { visibility: hidden; }
 }
 .yt-pill:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255,255,255,0.4); }
 
-.form-body { padding: 30px 45px; } /* Optimized padding */
+.form-body { padding: 30px 45px; }
 
 .stButton>button {
     background: white !important; color: black !important;
@@ -130,18 +129,42 @@ header { visibility: hidden; }
 }
 input { background: rgba(255,255,255,0.05) !important; color: white !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 12px !important; }
 
+/* MODERN TYPOGRAPHY FOOTER */
 .footer-message {
-    margin-top: 25px; /* Reduced margin */
-    padding: 30px;
+    margin-top: 25px;
+    padding: 40px 30px;
     text-align: center;
-    background: rgba(255, 0, 0, 0.05);
-    border-radius: 30px;
-    border: 1px solid rgba(255, 0, 0, 0.2);
-    backdrop-filter: blur(10px);
+    background: rgba(20, 20, 20, 0.3);
+    border-radius: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
 }
-.footer-title { font-weight: 900; font-size: 1.2rem; color: #ff0000; margin-bottom: 10px; }
-.footer-text { font-size: 0.95rem; color: #cccccc; line-height: 1.5; }
-.footer-highlight { font-weight: 700; color: white; margin-top: 10px; }
+.footer-title {
+    font-weight: 800; 
+    font-size: 1.6rem; 
+    color: #ff0000; 
+    margin-bottom: 15px; 
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(255,0,0,0.3);
+}
+.footer-text {
+    font-size: 1.05rem; 
+    font-weight: 300;
+    color: rgba(255,255,255,0.8); 
+    line-height: 1.7; 
+    letter-spacing: 0.5px;
+}
+.footer-highlight {
+    font-weight: 800; 
+    color: white; 
+    margin-top: 20px; 
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    opacity: 0.9;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 15px;
+    display: inline-block;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -191,6 +214,7 @@ else:
             elif status == "duplicate": st.warning("Tus datos ya están registrados.")
             else: st.error("Completa los campos correctamente.")
         st.markdown('</div></div>', unsafe_allow_html=True)
+        
         st.markdown('''
             <div class="footer-message">
                 <div class="footer-title">GRACIAS POR TU COMPRA</div>
