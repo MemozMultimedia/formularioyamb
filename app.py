@@ -45,13 +45,14 @@ st.markdown("""
 html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
 
 .stApp {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
-                      url("https://raw.githubusercontent.com/MemozMultimedia/mzmstill/main/hf_20260328_023420_f7d7d2a9-1955-4269-a97a-c444fbbd7a73.png");
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url("https://raw.githubusercontent.com/MemozMultimedia/mzmstill/main/hf_20260328_023420_f7d7d2a9-1955-4269-a97a-c444fbbd7a73.png") no-repeat center center fixed !important;
     background-size: cover !important;
-    background-position: center center !important;
-    background-repeat: no-repeat !important;
-    background-attachment: fixed !important;
 }
+
+/* Eliminar espacios extra arriba */
+.block-container { padding-top: 1rem !important; }
+header { visibility: hidden; }
 
 .main-card {
     background: rgba(0, 0, 0, 0.6);
@@ -61,7 +62,7 @@ html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .yamb-red { color: #ff0000; font-weight: bold; }
@@ -81,19 +82,19 @@ input {
 
 @media (max-width: 768px) {
     .main-card { padding: 25px; }
-    h1 { font-size: 2rem !important; }
+    h1 { font-size: 1.8rem !important; }
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Navigation
-top_l, top_r = st.columns([8, 2])
+# Navigation & Title combined to save space
+top_l, top_r = st.columns([9, 1])
 with top_r:
-    admin_mode = st.toggle("🔐 Unlock Admin")
+    admin_mode = st.toggle("") # Solo el candado/toggle sin texto largo
 
 if admin_mode:
     st.markdown("<h2 style='text-align: center; color: white;'>📂 Insight Center</h2>", unsafe_allow_html=True)
-    col_a, col_b, col_c = st.columns([1, 1, 1])
+    _, col_b, _ = st.columns([1, 1, 1])
     with col_b:
         user = st.text_input("Usuario")
         password = st.text_input("Contraseña", type="password")
@@ -104,7 +105,6 @@ if admin_mode:
             st.dataframe(df, use_container_width=True)
         elif user or password: st.error("Invalid Credentials")
 else:
-    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("<h1 style='text-align: center; color: white;'>Regístrate y sé parte de nuestra familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
     
     _, mid, _ = st.columns([1,2,1])
