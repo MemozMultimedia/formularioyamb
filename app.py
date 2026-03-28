@@ -39,7 +39,6 @@ def obtener_datos():
 # =====================
 # UI MASTER BRANDING
 # =====================
-# Browser Tab Title (INCLUDES YAMB)
 st.set_page_config(page_title="YAMB VIVIENDO LA EXPERIENCIA DEL BARRIO", page_icon="❌", layout="wide")
 
 st.markdown("""
@@ -82,10 +81,15 @@ header { visibility: hidden; }
     filter: drop-shadow(0 0 8px rgba(255,0,0,0.4));
 }
 .yt-pill {
-    background: #ff0000; padding: 12px 30px; border-radius: 5px;
-    font-weight: 900; color: white !important; text-decoration: none !important;
-    display: inline-block; transition: 0.4s; box-shadow: 0 0 15px rgba(255,0,0,0.5);
-    text-transform: uppercase;
+    background: #ff0000 !important; padding: 12px 30px !important; border-radius: 5px !important;
+    font-weight: 900 !important; color: white !important; text-decoration: none !important;
+    display: inline-block !important; transition: 0.4s !important; 
+    box-shadow: 0 0 15px rgba(255,0,0,0.5) !important;
+    text-transform: uppercase !important; border: none !important;
+}
+.yt-pill:hover {
+    box-shadow: 0 0 25px rgba(255,0,0,0.8) !important;
+    transform: scale(1.05);
 }
 .stButton>button {
     background: white !important; color: black !important;
@@ -139,7 +143,6 @@ else:
     _, mid, _ = st.columns([1, 1.5, 1])
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
-        # Visible Page Header (WITHOUT YAMB)
         st.markdown('<div class="unified-header"><div class="header-text">VIVIENDO LA EXPERIENCIA DEL BARRIO</div><br><a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="yt-pill">YAMB TV ▶️</a></div>', unsafe_allow_html=True)
         st.markdown('<div style="padding: 40px;">', unsafe_allow_html=True)
         with st.form("reg_form", clear_on_submit=True):
