@@ -34,7 +34,7 @@ def obtener_datos():
     return pd.read_sql_query("SELECT nombre, correo, telefono, ocupacion, fecha FROM registros ORDER BY fecha DESC", conn)
 
 # =====================
-# DYNAMIC ARTISTIC UI & METADATA
+# MASTER URBAN BRANDING
 # =====================
 st.set_page_config(
     page_title="YAMB | Viviendo la experiencia del barrio",
@@ -45,11 +45,6 @@ st.set_page_config(
 st.markdown("""
     <head>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22red%22 font-weight=%22bold%22>Y</text></svg>">
-        <meta property="og:title" content="YAMB | Únete a nuestra familia" />
-        <meta property="og:description" content="Vive la experiencia del barrio. Regístrate y apoya a jóvenes talentos en la mùsica y el arte. Compra con propósito, apoya el talento." />
-        <meta property="og:image" content="https://raw.githubusercontent.com/MemozMultimedia/mzmstill/main/hf_20260328_023420_f7d7d2a9-1955-4269-a97a-c444fbbd7a73.png" />
-        <meta property="og:type" content="website" />
-        <meta name="description" content="Registro oficial de la familia YAMB. Apoyando el arte y la mùsica del barrio." />
     </head>
 """, unsafe_allow_html=True)
 
@@ -58,7 +53,7 @@ st.markdown("""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800;900&display=swap');
 html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
 
-.block-container { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+.block-container { padding-top: 1rem !important; }
 header { visibility: hidden; }
 
 .stApp {
@@ -68,135 +63,84 @@ header { visibility: hidden; }
     content: '';
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: url("https://raw.githubusercontent.com/MemozMultimedia/mzmstill/main/hf_20260328_023420_f7d7d2a9-1955-4269-a97a-c444fbbd7a73.png");
-    background-size: cover; opacity: 0.12; filter: contrast(1.2) brightness(0.8);
+    background: url(\"https://raw.githubusercontent.com/MemozMultimedia/mzmstill/main/hf_20260328_023420_f7d7d2a9-1955-4269-a97a-c444fbbd7a73.png\");
+    background-size: cover; opacity: 0.12; filter: brightness(0.7);
     z-index: -1;
 }
-.stApp::after {
-    content: '';
-    position: fixed;
-    top: -50%; left: -50%; width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,0,0,0.08) 0%, transparent 40%);
-    animation: pulse 10s infinite alternate ease-in-out;
-    z-index: -1;
-}
-@keyframes pulse {
-    0% { transform: translate(-10%, -10%); }
-    100% { transform: translate(10%, 10%); }
-}
+
 .main-card {
     background: rgba(20, 20, 20, 0.4);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 40px;
     backdrop-filter: blur(25px);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    margin-top: 0px; 
     overflow: hidden;
 }
 
-/* MASTER URBAN BARRIO HEADER */
+/* MASTER URBAN HEADER */
 .unified-header {
     background: linear-gradient(135deg, #220000 0%, #000000 100%);
     padding: 35px 20px;
     text-align: center;
     border-bottom: 2px solid #ff0000;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     position: relative;
 }
-.unified-header::before {
+.unified-header::after {
     content: '';
     position: absolute;
     bottom: 0; left: 0; width: 100%; height: 2px;
-    background: linear-gradient(90deg, transparent, #ff0000, transparent);
-    box-shadow: 0 0 20px #ff0000;
+    background: #ff0000; box-shadow: 0 0 15px #ff0000;
 }
 .header-text {
     font-weight: 900; 
     font-size: 1.8rem; 
-    background: linear-gradient(to bottom, #ffffff 50%, #888888 100%);
+    background: linear-gradient(to bottom, #ffffff 40%, #888888 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 8px rgba(255,255,255,0.3));
     letter-spacing: 4px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-transform: uppercase;
     font-style: italic;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
 }
 .yt-pill {
     background: #ff0000; color: white !important;
-    padding: 12px 30px; border-radius: 5px;
+    padding: 12px 25px; border-radius: 4px;
     font-weight: 900; font-size: 0.85rem;
-    box-shadow: 0 0 15px rgba(255,0,0,0.4);
-    transition: 0.4s;
     text-decoration: none;
     display: inline-block;
-    border: 1px solid rgba(255,255,255,0.2);
-    text-transform: uppercase;
+    transition: 0.3s;
+    border: 1px solid rgba(255,255,255,0.1);
 }
-.yt-pill:hover { background: white; color: black !important; transform: scale(1.05); box-shadow: 0 0 25px white; }
+.yt-pill:hover { background: white; color: black !important; box-shadow: 0 0 20px white; }
 
-.form-body { padding: 40px 45px; }
+.form-body { padding: 40px; }
 
 .stButton>button {
     background: white !important; color: black !important;
-    border-radius: 15px !important; padding: 15px !important;
+    border-radius: 12px !important; padding: 15px !important;
     font-weight: 900 !important; border: none !important;
     transition: 0.4s !important;
+    text-transform: uppercase;
 }
 .stButton>button:hover {
     background: #ff0000 !important; color: white !important;
-    transform: translateY(-3px);
+    transform: translateY(-2px);
 }
-input { background: rgba(255,255,255,0.05) !important; color: white !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 12px !important; }
-
-.footer-message {
-    margin-top: 25px;
-    padding: 40px 30px;
-    text-align: center;
-    background: rgba(20, 20, 20, 0.3);
-    border-radius: 35px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-}
-.footer-title {
-    font-weight: 800; font-size: 1.6rem; color: #ff0000; margin-bottom: 15px; letter-spacing: 2px;
-    text-shadow: 0 0 15px rgba(255,0,0,0.3);
-}
-.footer-text {
-    font-size: 1.05rem; font-weight: 300; color: rgba(255,255,255,0.8); line-height: 1.7; letter-spacing: 0.5px;
-}
-.footer-highlight {
-    font-weight: 800; color: white; margin-top: 20px; font-size: 0.9rem; text-transform: uppercase; opacity: 0.9;
-    border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; display: inline-block;
-}
+input { background: rgba(255,255,255,0.05) !important; color: white !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 10px !important; }
 </style>
 """, unsafe_allow_html=True)
 
-top_l, top_r = st.columns([9, 1])
-with top_r: admin_mode = st.toggle("🔐")
-
+# Admin Sidebar
+admin_mode = st.sidebar.toggle("🔐 Admin Access")
 if admin_mode:
-    st.markdown("<h1 style='text-align: center; color: white; font-size: 2rem;'>📂 Insight Center</h1>", unsafe_allow_html=True)
-    _, mid, _ = st.columns([1, 2, 1])
-    with mid:
-        with st.form("admin_login"):
-            u = st.text_input("Master Key")
-            p = st.text_input("Token", type="password")
-            login_btn = st.form_submit_button("🚀 INICIAR SESIÓN", use_container_width=True)
-        if login_btn:
-            if u == "Yamb" and p == "LavueltaesDios1*":
-                st.session_state["admin_auth"] = True
-            else:
-                st.error("Credenciales Incorrectas")
-        if st.session_state.get("admin_auth"):
-            st.success("Acceso Autorizado")
-            df = obtener_datos()
-            st.dataframe(df, use_container_width=True)
-            csv = df.to_csv(index=False).encode('utf-8')
-            st.download_button("📥 EXPORTAR DB (CSV)", csv, "yamb_pro.csv", "text/csv", use_container_width=True)
+    u = st.text_input("Master Key")
+    p = st.text_input("Token", type="password")
+    if u == "Yamb" and p == "LavueltaesDios1*":
+        st.dataframe(obtener_datos(), use_container_width=True)
 else:
-    st.markdown("<h1 style='text-align: center; color: white; font-weight:900; font-size: 2.8rem; letter-spacing: -2px; margin-bottom: 0px;'>Únete a nuestra familia <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
-    _, mid, _ = st.columns([1, 1.6, 1])
+    st.markdown("<h1 style='text-align: center; color: white; font-weight:900; font-size: 3rem; letter-spacing: -3px;'>Únete a nuestra familia <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
+    _, mid, _ = st.columns([1, 1.5, 1])
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
         st.markdown('''
@@ -206,27 +150,14 @@ else:
             </div>
         ''', unsafe_allow_html=True)
         st.markdown('<div class="form-body">', unsafe_allow_html=True)
-        with st.form("compact_form", clear_on_submit=True):
-            n = st.text_input("Nombre completo", placeholder="Tu nombre")
-            c = st.text_input("Email", placeholder="tucorreo@ejemplo.com")
-            t = st.text_input("WhatsApp", placeholder="+57...")
-            o = st.text_input("¿Qué haces? (Ocupación)", placeholder="Ej: Artista, Diseñador")
-            sub = st.form_submit_button("✅ UNIRME AHORA", use_container_width=True)
+        with st.form("master_form", clear_on_submit=True):
+            n = st.text_input("Nombre completo")
+            c = st.text_input("Email")
+            t = st.text_input("WhatsApp")
+            o = st.text_input("Ocupación")
+            sub = st.form_submit_button("UNIRME AHORA", use_container_width=True)
         if sub:
             status = guardar(n, c, t, o, datetime.now().strftime('%Y-%m-%d'))
             if status == "success": st.balloons(); st.success("¡Bienvenido a la verdadera vuelta!")
-            elif status == "duplicate": st.warning("Tus datos ya están registrados.")
-            else: st.error("Completa los campos correctamente.")
+            else: st.error("Error en el registro.")
         st.markdown('</div></div>', unsafe_allow_html=True)
-        st.markdown('''
-            <div class="footer-message">
-                <div class="footer-title">GRACIAS POR TU COMPRA</div>
-                <div class="footer-text">
-                    CADA PRODUCTO DE YAMB TIENE UN PROPÓSITO.<br>
-                    CON TU COMPRA, APOYAS A JÓVENES TALENTOS EN LA MÙSICA Y EL ARTE, AYUDÁNDOLOS A CRECER, CREAR Y COMPARTIR SU PASIÓN CON EL MUNDO.
-                </div>
-                <div class="footer-highlight">
-                    COMPRASTE WITH PROPÓSITO. APOYASTE EL TALENTO.
-                </div>
-            </div>
-        ''', unsafe_allow_html=True)
