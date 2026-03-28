@@ -34,9 +34,24 @@ def obtener_datos():
     return pd.read_sql_query("SELECT nombre, correo, telefono, ocupacion, fecha FROM registros ORDER BY fecha DESC", conn)
 
 # =====================
-# DYNAMIC ARTISTIC UI
+# DYNAMIC ARTISTIC UI & METADATA
 # =====================
-st.set_page_config(page_title="YAMB | Experiencia Pro", layout="wide")
+st.set_page_config(
+    page_title="YAMB | Viviendo la experiencia del barrio",
+    page_icon="🔥",
+    layout="wide"
+)
+
+# METADATOS PARA EL LINK (Social Media Preview)
+st.markdown("""
+    <head>
+        <meta property="og:title" content="YAMB | Únete a nuestra familia" />
+        <meta property="og:description" content="Vive la experiencia del barrio. Regístrate y apoya a jóvenes talentos en la música y el arte. Compra con propósito, apoya el talento." />
+        <meta property="og:image" content="https://raw.githubusercontent.com/MemozMultimedia/mzmstill/main/hf_20260328_023420_f7d7d2a9-1955-4269-a97a-c444fbbd7a73.png" />
+        <meta property="og:type" content="website" />
+        <meta name="description" content="Registro oficial de la familia YAMB. Apoyando el arte y la música del barrio." />
+    </head>
+""", unsafe_allow_html=True)
 
 st.markdown("""
 <style>
@@ -152,7 +167,7 @@ if admin_mode:
             csv = df.to_csv(index=False).encode('utf-8')
             st.download_button("📥 EXPORTAR DB", csv, "yamb_pro.csv", "text/csv", use_container_width=True)
 else:
-    st.markdown("<h1 style='text-align: center; color: white; font-weight:900; font-size: 3.5rem; letter-spacing: -3px;'>Únete a nuestra familia <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: white; font-weight:900; font-size: 3.5rem; letter-spacing: -3px;'>ÚNETE A NUESTRA FAMILIA <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
 
     _, mid, _ = st.columns([1, 1.6, 1])
     with mid:
@@ -169,17 +184,16 @@ else:
             n = st.text_input("Nombre completo", placeholder="Tu nombre")
             c = st.text_input("Email", placeholder="tucorreo@ejemplo.com")
             t = st.text_input("WhatsApp", placeholder="+57...")
-            o = st.text_input("¿Qué haces?", placeholder="Ej: Artista, Diseñador")
-            sub = st.form_submit_button("✅ ENTRAR A LA FAMILIA", use_container_width=True)
+            o = st.text_input("¿Qué haces? (Ocupación)", placeholder="Ej: Artista, Diseñador")
+            sub = st.form_submit_button("✅ UNIRME AHORA", use_container_width=True)
 
         if sub:
             status = guardar(n, c, t, o, datetime.now().strftime('%Y-%m-%d'))
             if status == "success": st.balloons(); st.success("¡Bienvenido a la verdadera vuelta!")
             elif status == "duplicate": st.warning("Tus datos ya están registrados.")
-            else: st.error("Faltan datos por completar.")
+            else: st.error("Completa los campos correctamente.")
         st.markdown('</div></div>', unsafe_allow_html=True)
 
-        # Footer Message
         st.markdown('''
             <div class="footer-message">
                 <div class="footer-title">GRACIAS POR TU COMPRA</div>
