@@ -9,7 +9,7 @@ from PIL import Image
 
 st.set_page_config(page_title="MZM Stillz Pro", layout="wide")
 
-# 🎨 DISEÑO CORPORATIVO CENTRALIZADO CON MARCA DE AGUA
+# 🎨 DISEÑO CORPORATIVO CENTRALIZADO
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800&display=swap');
@@ -20,7 +20,6 @@ st.markdown("""
     font-family: 'Inter', sans-serif;
 }
 
-/* Fondo con detalles del logo (Watermark) */
 .stApp::before {
     content: '';
     position: fixed;
@@ -33,26 +32,28 @@ st.markdown("""
     z-index: -1;
 }
 
-.logo-container {
+/* CENTRALIZACIÓN TOTAL DEL HEADER */
+.main-header {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 60px 0 20px 0;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 40px;
 }
 
 .steam-effect {
-    position: relative;
     display: flex;
     justify-content: center;
     filter: drop-shadow(0 0 15px rgba(255,255,255,0.1));
+    margin-bottom: 20px;
 }
 
 .steam-effect::after {
     content: '';
     position: absolute;
-    top: -10px; left: -10px; right: -10px; bottom: -10px;
-    background: inherit;
+    width: 200px; height: 200px;
     background-image: url('https://raw.githubusercontent.com/MemozMultimedia/mzmstill/main/MZM.PNG');
     background-size: contain;
     background-repeat: no-repeat;
@@ -68,48 +69,37 @@ st.markdown("""
     100% { transform: translateY(-20px) scale(1.1); opacity: 0; }
 }
 
-.card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.07);
-    border-radius: 20px;
-    padding: 35px;
-    backdrop-filter: blur(20px);
-    margin-bottom: 30px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-}
-
 h1 {
     background: linear-gradient(180deg, #ffffff 0%, #888888 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800 !important;
-    font-size: 4.2rem !important;
-    text-align: center;
+    font-size: 4.5rem !important;
     letter-spacing: -3px;
     margin: 0 !important;
 }
 
-.stButton>button {
-    background: #ffffff !important;
-    color: #000000 !important;
-    border-radius: 8px !important;
-    padding: 1rem 5rem !important;
-    font-weight: 800 !important;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    transition: 0.4s all ease;
+.card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 24px;
+    padding: 40px;
+    backdrop-filter: blur(20px);
+    margin: 0 auto 30px auto;
+    max-width: 800px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 </style>
 """, unsafe_allow_html=True)
 
 # HEADER CENTRALIZADO
-st.markdown('<div class="logo-container">', unsafe_allow_html=True)
+st.markdown('<div class="main-header">', unsafe_allow_html=True)
 st.markdown('<div class="steam-effect">', unsafe_allow_html=True)
 if os.path.exists("MZM.PNG"):
-    st.image("MZM.PNG", width=180)
+    st.image("MZM.PNG", width=220)
 st.markdown('</div>', unsafe_allow_html=True)
 st.markdown('<h1>MZM Stillz</h1>', unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #666; font-size: 1rem; letter-spacing: 6px; text-transform: uppercase; margin-top: 10px;'>High Fidelity Extraction</p>", unsafe_allow_html=True)
+st.markdown("<p style='color: #666; font-size: 1.1rem; letter-spacing: 8px; text-transform: uppercase;'>High Fidelity Extraction</p>", unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
 # CONTENIDO
