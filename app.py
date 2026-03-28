@@ -61,22 +61,13 @@ header { visibility: hidden; }
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     box-shadow: 0 0 50px rgba(255, 0, 0, 0.15);
-    margin-top: -10px;
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
 .yamb-red { color: #ff0000; font-weight: 900; text-shadow: 0 0 10px rgba(255,0,0,0.3); }
-
-.stButton>button {
-    background: linear-gradient(90deg, #ff0000, #800000) !important;
-    color: white !important;
-    border-radius: 14px !important;
-    padding: 12px 28px !important;
-    font-weight: 800 !important;
-    border: none !important;
-}
 
 .experience-link {
     background: rgba(255, 0, 0, 0.2);
@@ -93,7 +84,16 @@ header { visibility: hidden; }
 }
 .experience-link:hover { background: rgba(255, 0, 0, 0.6); transform: scale(1.05); box-shadow: 0 0 20px rgba(255,0,0,0.4); }
 
-.yt-hint { color: #ff0000; font-size: 0.75rem; font-weight: 700; opacity: 0.9; margin-top: -5px; }
+.yt-hint { color: #ff0000; font-size: 0.75rem; font-weight: 700; opacity: 0.9; margin-top: 5px; }
+
+.stButton>button {
+    background: linear-gradient(90deg, #ff0000, #800000) !important;
+    color: white !important;
+    border-radius: 14px !important;
+    padding: 12px 28px !important;
+    font-weight: 800 !important;
+    border: none !important;
+}
 
 input {
     background: rgba(255,255,255,0.08) !important;
@@ -118,14 +118,20 @@ if admin_mode:
             st.dataframe(df, use_container_width=True)
         elif user or password: st.error("Invalid Credentials")
 else:
-    st.markdown("<h1 style='text-align: center; color: white;'>Sé parte de la familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
-    
+    st.markdown("<h1 style='text-align: center; color: white; margin-bottom: 0px;'>Sé parte de la familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
+
+    # Top Section: YouTube Link (Modified to be the main premium action)
+    _, top_mid, _ = st.columns([1,1.8,1])
+    with top_mid:
+        st.markdown('<div style="text-align: center; margin-bottom: 15px;">', unsafe_allow_html=True)
+        st.markdown('<a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="experience-link">BARRIO EXPERIENCE ▶️</a>', unsafe_allow_html=True)
+        st.markdown('<div class="yt-hint">☝️ Haz clic arriba para ver lo último en nuestro YouTube</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    # Registration Form
     _, mid, _ = st.columns([1,1.8,1])
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
-        st.markdown('<a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="experience-link">BARRIO EXPERIENCE ▶️</a>', unsafe_allow_html=True)
-        st.markdown('<div class="yt-hint">☝️ Haz clic arriba para ver lo ùltimo en nuestro YouTube</div>', unsafe_allow_html=True)
-        
         st.markdown("<h3 style='margin:0;'>Únete al movimiento</h3>", unsafe_allow_html=True)
         with st.form("modern_form", clear_on_submit=True):
             n = st.text_input("Nombre completo", placeholder="Ej: Juan Pérez")
@@ -133,7 +139,7 @@ else:
             t = st.text_input("Teléfono", placeholder="Ej: +57 300 123 4567")
             o = st.text_input("Ocupación", placeholder="Ej: Productor, Artista")
             sub = st.form_submit_button("✅ ENVIAR REGISTRO", use_container_width=True)
-            
+
         if sub:
             status = guardar(n, c, t, o, datetime.now().strftime('%Y-%m-%d'))
             if status == "success": st.balloons(); st.success("✅ ¡Registro enviado exitosamente!")
