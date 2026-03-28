@@ -49,7 +49,6 @@ html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
     color: white;
 }
 
-/* Animated Mesh Background Overlay */
 .stApp::before {
     content: '';
     position: fixed;
@@ -66,75 +65,73 @@ html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
     padding: 40px;
     backdrop-filter: blur(20px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    transition: all 0.3s ease;
 }
 
-.yamb-red { 
-    background: linear-gradient(90deg, #ff0000, #b30000);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 900; 
-}
+.yamb-red { color: #ff0000; font-weight: bold; }
 
 .stButton>button {
     background: linear-gradient(90deg, #ff0000, #800000) !important;
     color: white !important;
-    border: none !important;
     border-radius: 12px !important;
     padding: 12px 24px !important;
     font-weight: 700 !important;
-    letter-spacing: 1px;
-    transition: 0.4s !important;
-}
-
-.stButton>button:hover {
-    box-shadow: 0 0 20px rgba(255,0,0,0.6) !important;
-    transform: translateY(-2px);
 }
 
 input {
     background: rgba(255,255,255,0.05) !important;
-    border-color: rgba(255,255,255,0.1) !important;
     color: white !important;
-    border-radius: 10px !important;
+}
+
+/* Premium Admin Toggle Styling */
+[data-testid="stSidebar"] {
+    background-color: rgba(0,0,0,0.6) !important;
+    backdrop-filter: blur(15px);
+}
+
+.st-emotion-cache-1vt458s { 
+    background: rgba(255,255,255,0.05) !important; 
+    padding: 10px; 
+    border-radius: 15px; 
+    border: 1px solid rgba(255,255,255,0.1);
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Navigation
-admin_mode = st.sidebar.toggle("🔒 Admin Access")
+# Navigation in Sidebar for a cleaner main UI
+with st.sidebar:
+    st.markdown("### ✨ PREMIUM PANEL")
+    admin_mode = st.toggle("🔐 Unlock Admin Mode")
+    st.markdown("--- ")
 
 if admin_mode:
-    st.markdown("<h1 style='text-align: center;'>📂 Insight Center</h1>", unsafe_allow_html=True)
-    c1, c2, c3 = st.columns([1,1.5,1])
-    with c2:
-        with st.container(border=True):
-            u = st.text_input("User ID")
-            p = st.text_input("Key Token", type="password")
-            if u == "Yamb" and p == "LavueltaesDios1*":
-                st.success("Authorized Access")
-                df = obtener_datos()
-                df.columns = ['Nombre', 'Email', 'Teléfono', 'Ocupación', 'Fecha']
-                st.dataframe(df, use_container_width=True)
-            elif u or p: st.error("Invalid Credentials")
+    st.markdown("<h2 style='text-align: center;'>📂 Insight Center</h2>", unsafe_allow_html=True)
+    col_a, col_b, col_c = st.columns([1, 1, 1])
+    with col_b:
+        user = st.text_input("Usuario")
+        password = st.text_input("Contraseña", type="password")
+        if user == "Yamb" and password == "LavueltaesDios1*":
+            st.success("Authorized Access")
+            df = obtener_datos()
+            df.columns = ['Nombre', 'Correo', 'Teléfono', 'Ocupación', 'Fecha']
+            st.dataframe(df, use_container_width=True)
+        elif user or password: st.error("Invalid Credentials")
 else:
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    st.markdown("<h1 style='text-align: center; font-size: 4rem; letter-spacing: -2px;'>Welcome to <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; opacity: 0.7;'>La próxima generación de nuestra familia comienza contigo.</p>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>Regístrate y sé parte de nuestra familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
     
     _, mid, _ = st.columns([1,2,1])
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
         with st.form("modern_form", clear_on_submit=True):
-            n = st.text_input("Nombre Completo", placeholder="Ej: Juan Pérez")
-            c = st.text_input("Correo Electrónico", placeholder="ejemplo@yamb.com")
-            t = st.text_input("Número de Contacto")
-            o = st.text_input("Tu Ocupación")
-            sub = st.form_submit_button("UNIRSE AHORA", use_container_width=True)
+            n = st.text_input("Nombre completo")
+            c = st.text_input("Correo electrónico")
+            t = st.text_input("Teléfono")
+            o = st.text_input("Ocupación")
+            sub = st.form_submit_button("✅ Enviar registro", use_container_width=True)
             
         if sub:
             status = guardar(n, c, t, o, datetime.now().strftime('%Y-%m-%d'))
-            if status == "success": st.balloons(); st.success("Bienvenido a la familia YAMB.")
-            elif status == "duplicate": st.warning("⚠️ Estos datos ya están en nuestro registro.")
-            else: st.error("Por favor revisa la información.")
+            if status == "success": st.balloons(); st.success("✅ ¡Registro enviado exitosamente!")
+            elif status == "duplicate": st.warning("⚠️ Error: Estos datos ya están registrados.")
+            else: st.error("⚠️ Por favor, completa los campos correctamente.")
         st.markdown('</div>', unsafe_allow_html=True)
