@@ -11,55 +11,89 @@ from io import BytesIO
 
 st.set_page_config(page_title="MZM Stillz Pro", layout="wide")
 
-# ✨ ULTRA-MODERN PRODUCTIVITY UI
+# ✨ LUXURY MODERN UI WITH GLOW EFFECTS
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
 
 .stApp { background: #050508 !important; color: #f0f0f0; font-family: 'Inter', sans-serif; }
 
-/* Compact Header */
-.main-header { display: flex; flex-direction: column; align-items: center; margin-bottom: 15px; }
-.block-container { padding-top: 1rem !important; }
+/* Fix Logo Space */
+.main-header { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    padding-top: 40px; /* Added space so logo doesn't cut */
+    margin-bottom: 25px; 
+}
 
-/* Productivity Cards */
+.block-container { padding-top: 0rem !important; }
+
 .card { 
     background: rgba(255, 255, 255, 0.02); 
     border: 1px solid rgba(255, 255, 255, 0.05); 
     border-radius: 12px; 
     padding: 15px; 
-    margin-bottom: 10px; 
+    margin-bottom: 15px; 
 }
 
-/* Modern Image Grid */
 .img-container { 
     border-radius: 8px; 
     overflow: hidden; 
-    border: 1px solid rgba(255,255,255,0.1); 
+    border: 1px solid rgba(255,255,255,0.05); 
     background: #000; 
-    margin-bottom: 10px; 
-    transition: 0.3s; 
+    margin-bottom: 12px; 
 }
-.img-container:hover { border-color: #fff; transform: translateY(-2px); }
 
-/* Glassmorphism Buttons */
-.stButton>button { 
-    border-radius: 6px !important; 
-    font-weight: 600 !important; 
-    transition: 0.2s; 
-}
+/* GLOSSY GLOW BUTTONS */
 .download-btn { 
     display: inline-block; 
-    padding: 5px 10px; 
-    background: rgba(255,255,255,0.1); 
-    color: #fff; 
-    text-decoration: none; 
-    border-radius: 4px; 
-    font-size: 0.8rem; 
+    padding: 8px 12px; 
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%); 
+    color: #fff !important; 
+    text-decoration: none !important; 
+    border-radius: 8px; 
+    font-size: 0.85rem; 
+    font-weight: 600;
     text-align: center; 
     width: 100%; 
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: 0.3s all ease; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
 }
-.download-btn:hover { background: #fff; color: #000; }
+
+.download-btn:hover { 
+    background: rgba(255,255,255,0.2); 
+    border-color: rgba(255,255,255,0.5);
+    box-shadow: 0 0 20px rgba(255,255,255,0.15); 
+    transform: translateY(-2px);
+}
+
+/* Shine Effect */
+.download-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: rotate(45deg);
+    transition: 0.5s;
+}
+
+.download-btn:hover::after {
+    left: 100%;
+}
+
+.stButton>button {
+    background: white !important;
+    color: black !important;
+    font-weight: 800 !important;
+    border-radius: 10px !important;
+    border: none !important;
+    padding: 0.6rem !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -76,11 +110,11 @@ def get_image_download_link(img, filename, text):
 
 # HEADER
 st.markdown('<div class="main-header">', unsafe_allow_html=True)
-if os.path.exists("MZM.PNG"): st.image("MZM.PNG", width=100)
-st.markdown('<h1 style="font-size: 2rem; margin:0; letter-spacing:-1px; font-weight:800;">MZM Stillz</h1>', unsafe_allow_html=True)
+if os.path.exists("MZM.PNG"): st.image("MZM.PNG", width=120)
+st.markdown('<h1 style="font-size: 2.8rem; margin:0; letter-spacing:-1.5px; font-weight:800;">MZM Stillz</h1>', unsafe_allow_html=True)
 st.markdown("</div>", unsafe_allow_html=True)
 
-# WORKFLOW
+# UI
 uploaded_file = st.file_uploader("", type=["mov","mp4","avi"], label_visibility="collapsed")
 
 if uploaded_file:
@@ -94,9 +128,9 @@ if uploaded_file:
         st.markdown('</div>', unsafe_allow_html=True)
     with c2:
         st.markdown('<div class="card">', unsafe_allow_html=True)
-        num = st.slider("Density", 4, 32, 12)
-        if st.button("EXTRACT MASTER STILLS", use_container_width=True):
-            with st.status("Scanning Optics...", expanded=False):
+        num = st.slider("Stills Density", 4, 32, 12)
+        if st.button("GENERATE MASTER STILLS", use_container_width=True):
+            with st.status("Neural Processing...", expanded=False):
                 cap = cv2.VideoCapture(tfile.name)
                 frames, scores = [], []
                 count = 0
@@ -108,7 +142,6 @@ if uploaded_file:
                         scores.append(get_sharpness(frame))
                     count += 1
                 cap.release()
-                
                 idx = np.argsort(scores)[-num:]
                 st.session_state['stills'] = [frames[i] for i in idx]
                 st.session_state['file_name'] = os.path.splitext(uploaded_file.name)[0]
@@ -116,21 +149,15 @@ if uploaded_file:
 
 if 'stills' in st.session_state:
     st.markdown("--- ")
-    st.subheader("🖼 Selection Library")
-    
-    # Package Download
-    zip_path = f"{st.session_state['file_name']}_stills.zip"
+    zip_path = f"{st.session_state['file_name']}_mzm.zip"
     with zipfile.ZipFile(zip_path, "w") as z:
         for i, f in enumerate(st.session_state['stills']):
-            p = f"frame_{i}.png"
-            cv2.imwrite(p, f)
-            z.write(p)
-            os.remove(p)
+            p = f"frame_{i}.png"; cv2.imwrite(p, f); z.write(p); os.remove(p)
     
     with open(zip_path, "rb") as f:
-        st.download_button("📦 DOWNLOAD ALL (ZIP)", f, file_name=zip_path, type="primary", use_container_width=True)
+        st.download_button("📥 DOWNLOAD COMPLETE PACKAGE (ZIP)", f, file_name=zip_path, type="primary", use_container_width=True)
 
-    # Image List / Grid
+    st.markdown("<br>", unsafe_allow_html=True)
     cols = st.columns(4)
     for i, frame in enumerate(st.session_state['stills']):
         with cols[i % 4]:
@@ -138,6 +165,5 @@ if 'stills' in st.session_state:
             pil_img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
             st.image(pil_img, use_column_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
-            # Individual Download
             st.markdown(get_image_download_link(pil_img, f"still_{i}.png", f"⤓ Still {i+1}"), unsafe_allow_html=True)
             st.markdown("<br>", unsafe_allow_html=True)
