@@ -36,9 +36,8 @@ def obtener_datos():
 # =====================
 # UI MODERN LOOK & FEEL
 # =====================
-st.set_page_config(page_title="YAMB Pro | Experience", layout="wide")
+st.set_page_config(page_title="YAMB | Viviendo la experiencia del barrio", layout="wide")
 
-# Improved CSS for Background Image
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
@@ -112,10 +111,10 @@ else:
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
         with st.form("modern_form", clear_on_submit=True):
-            n = st.text_input("Nombre completo")
-            c = st.text_input("Correo electrónico")
-            t = st.text_input("Teléfono")
-            o = st.text_input("Ocupación")
+            n = st.text_input("Nombre completo", placeholder="Ej: Juan Pérez")
+            c = st.text_input("Correo electrónico", placeholder="ejemplo@yamb.com")
+            t = st.text_input("Teléfono", placeholder="Ej: +57 300 123 4567")
+            o = st.text_input("Ocupación", placeholder="Ej: Productor, Artista, Emprendedor")
             sub = st.form_submit_button("✅ Enviar registro", use_container_width=True)
             
         if sub:
