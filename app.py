@@ -6,17 +6,19 @@ import re
 import os
 
 # =====================
-# DB SETUP
+# DB SETUP (PERSISTENTE)
 # =====================
 conn = sqlite3.connect("datos_app.db", check_same_thread=False)
 cursor = conn.cursor()
 
+# Usamos IF NOT EXISTS para proteger los datos actuales
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS registros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT,
+    nombre TEXT UNIQUE,
     correo TEXT UNIQUE,
-    telefono TEXT,
+    telefono TEXT UNIQUE,
+    ocupacion TEXT,
     fecha TEXT
 )
 """)
@@ -29,13 +31,17 @@ def validar_email(email):
 def guardar_en_txt(df):
     df.to_string('reporte_registros.txt', index=False)
 
-def guardar(nombre, correo, telefono, fecha):
+def guardar(nombre, correo, telefono, ocupacion, fecha):
     if nombre and correo and validar_email(correo):
         try:
+            cursor.execute("SELECT * FROM registros WHERE nombre=? OR correo=? OR telefono=?", (nombre, correo, telefono))
+            if cursor.fetchone():
+                return "duplicate"
+
             cursor.execute("""
-            INSERT INTO registros (nombre, correo, telefono, fecha)
-            VALUES (?, ?, ?, ?)
-            """, (nombre, correo, telefono, fecha))
+            INSERT INTO registros (nombre, correo, telefono, ocupacion, fecha)
+            VALUES (?, ?, ?, ?, ?)
+            """, (nombre, correo, telefono, ocupacion, fecha))
             conn.commit()
             df = obtener_datos()
             guardar_en_txt(df)
@@ -65,7 +71,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Top Admin Button
 col_left, col_right = st.columns([8, 2])
 with col_right:
     admin_mode = st.toggle("🔐 Acceso Administrador")
@@ -76,31 +81,29 @@ if admin_mode:
     with col_b:
         user = st.text_input("Usuario")
         password = st.text_input("Contraseña", type="password")
-
         if user == "Yamb" and password == "LavueltaesDios1*":
-            st.success("✅ Acceso Concedido")
+            st.success("✅ Acceso concedido")
             df = obtener_datos()
             st.dataframe(df.drop(columns=['id']), use_container_width=True)
             if os.path.exists('reporte_registros.txt'):
                 with open('reporte_registros.txt', 'rb') as f:
-                    st.download_button("⏬ Descargar (.txt)", f, file_name='reporte_registros.txt')
+                    st.download_button("⏬ Descargar reporte (.txt)", f, file_name='reporte_registros.txt')
         elif user or password:
             st.error("❌ Credenciales incorrectas")
-
 else:
-    st.markdown("<h1 style='text-align: center;'>Registrate y se parte de nuestra familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>Regístrate y sé parte de nuestra familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
         with st.form("public_form", clear_on_submit=True):
             nombre = st.text_input("Nombre completo")
-            correo = st.text_input("Email")
+            correo = st.text_input("Correo electrónico")
             telefono = st.text_input("Teléfono")
-            submit = st.form_submit_button("✅ Enviar Registro", use_container_width=True)
-
+            ocupacion = st.text_input("Ocupación")
+            submit = st.form_submit_button("✅ Enviar registro", use_container_width=True)
         if submit:
-            res = guardar(nombre, correo, telefono, datetime.now().strftime('%Y-%m-%d'))
-            if res == "success": st.success("✅ ¡Registro enviado!")
-            elif res == "duplicate": st.error("⚠️ El correo ya existe.")
-            else: st.error("⚠️ Completa los campos.")
+            res = guardar(nombre, correo, telefono, ocupacion, datetime.now().strftime('%Y-%m-%d'))
+            if res == "success": st.success("✅ ¡Registro enviado exitosamente!")
+            elif res == "duplicate": st.error("⚠️ Error: El nombre, correo o teléfono ya están registrados.")
+            else: st.error("⚠️ Por favor, completa los campos correctamente.")
         st.markdown('</div>', unsafe_allow_html=True)
