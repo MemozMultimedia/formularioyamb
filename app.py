@@ -124,7 +124,7 @@ else:
     _, top_mid, _ = st.columns([1,1.8,1])
     with top_mid:
         st.markdown('<div style="text-align: center; margin-bottom: 15px;">', unsafe_allow_html=True)
-        st.markdown('<a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="experience-link">BARRIO EXPERIENCE ▶️</a>', unsafe_allow_html=True)
+        st.markdown('<a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="experience-link">YAMB TV ▶️</a>', unsafe_allow_html=True)
         st.markdown('<div class="yt-hint">☝️ Haz clic arriba para ver lo último en nuestro YouTube</div>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
