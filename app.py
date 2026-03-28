@@ -38,18 +38,19 @@ def obtener_datos():
 # =====================
 st.set_page_config(
     page_title="YAMB | Viviendo la experiencia del barrio",
-    page_icon="🔥",
+    page_icon="❌", # Usamos un emoji que represente el color rojo inicialmente
     layout="wide"
 )
 
-# METADATOS PARA EL LINK (Social Media Preview)
+# METADATOS Y FAVICON PERSONALIZADO (Y ROJA)
 st.markdown("""
     <head>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22red%22 font-weight=%22bold%22>Y</text></svg>">
         <meta property="og:title" content="YAMB | Únete a nuestra familia" />
-        <meta property="og:description" content="Vive la experiencia del barrio. Regístrate y apoya a jóvenes talentos en la música y el arte. Compra con propósito, apoya el talento." />
+        <meta property="og:description" content="Vive la experiencia del barrio. Regístrate y apoya a jóvenes talentos en la mùsica y el arte. Compra con propósito, apoya el talento." />
         <meta property="og:image" content="https://raw.githubusercontent.com/MemozMultimedia/mzmstill/main/hf_20260328_023420_f7d7d2a9-1955-4269-a97a-c444fbbd7a73.png" />
         <meta property="og:type" content="website" />
-        <meta name="description" content="Registro oficial de la familia YAMB. Apoyando el arte y la música del barrio." />
+        <meta name="description" content="Registro oficial de la familia YAMB. Apoyando el arte y la mùsica del barrio." />
     </head>
 """, unsafe_allow_html=True)
 
@@ -167,7 +168,7 @@ if admin_mode:
             csv = df.to_csv(index=False).encode('utf-8')
             st.download_button("📥 EXPORTAR DB", csv, "yamb_pro.csv", "text/csv", use_container_width=True)
 else:
-    st.markdown("<h1 style='text-align: center; color: white; font-weight:900; font-size: 3.5rem; letter-spacing: -3px;'>ÚNETE A NUESTRA FAMILIA <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: white; font-weight:900; font-size: 3.5rem; letter-spacing: -3px;'>Únete a nuestra familia <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
 
     _, mid, _ = st.columns([1, 1.6, 1])
     with mid:
@@ -199,7 +200,7 @@ else:
                 <div class="footer-title">GRACIAS POR TU COMPRA</div>
                 <div class="footer-text">
                     CADA PRODUCTO DE YAMB TIENE UN PROPÓSITO.<br>
-                    CON TU COMPRA, APOYAS A JÓVENES TALENTOS EN LA MÚSICA Y EL ARTE, AYUDÁNDOLOS A CRECER, CREAR Y COMPARTIR SU PASIÓN CON EL MUNDO.
+                    CON TU COMPRA, APOYAS A JÓVENES TALENTOS EN LA MÙSICA Y EL ARTE, AYUDÁNDOLOS A CRECER, CREAR Y COMPARTIR SU PASIÓN CON EL MUNDO.
                 </div>
                 <div class="footer-highlight">
                     COMPRASTE CON PROPÓSITO. APOYASTE EL TALENTO.
