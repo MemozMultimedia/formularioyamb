@@ -50,48 +50,56 @@ html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
     background-size: cover !important;
 }
 
-/* Ajuste de espacios para quitar la 'barra' sin sentido */
 .block-container { padding-top: 1rem !important; }
 header { visibility: hidden; }
-#root > div:nth-child(1) > div > div > div > div > section > div { padding-top: 0rem !important; }
 
 .main-card {
-    background: rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 24px;
-    padding: 40px;
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.8);
-    margin-top: -20px; /* Sube el formulario para cerrar el hueco */
+    background: rgba(10, 10, 10, 0.7);
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    border-radius: 28px;
+    padding: 45px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.1);
+    margin-top: -30px;
+    transition: 0.3s ease-in-out;
 }
 
-.yamb-red { color: #ff0000; font-weight: bold; }
+.main-card:hover { border-color: rgba(255, 0, 0, 0.5); }
+
+.yamb-red { color: #ff0000; font-weight: 900; text-shadow: 0 0 10px rgba(255,0,0,0.3); }
 
 .stButton>button {
     background: linear-gradient(90deg, #ff0000, #800000) !important;
     color: white !important;
-    border-radius: 12px !important;
-    padding: 12px 24px !important;
-    font-weight: 700 !important;
+    border-radius: 14px !important;
+    padding: 14px 28px !important;
+    font-weight: 800 !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(255,0,0,0.2) !important;
 }
 
 input {
-    background: rgba(255,255,255,0.1) !important;
+    background: rgba(255,255,255,0.08) !important;
     color: white !important;
+    border-radius: 10px !important;
 }
 
-@media (max-width: 768px) {
-    .main-card { padding: 25px; margin-top: 0px; }
-    h1 { font-size: 1.8rem !important; }
+.experience-tag {
+    background: rgba(255, 0, 0, 0.1);
+    color: #ff0000;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    display: inline-block;
+    margin-bottom: 15px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Navigation & Admin Access (Restaurado)
 top_l, top_r = st.columns([9, 1])
-with top_r:
-    admin_mode = st.toggle("🔐", value=False, help="Admin")
+with top_r: admin_mode = st.toggle("🔐", help="Admin")
 
 if admin_mode:
     st.markdown("<h2 style='text-align: center; color: white;'>📂 Insight Center</h2>", unsafe_allow_html=True)
@@ -102,21 +110,23 @@ if admin_mode:
         if user == "Yamb" and password == "LavueltaesDios1*":
             st.success("Authorized Access")
             df = obtener_datos()
-            df.columns = ['Nombre', 'Correo', 'Teléfono', 'Ocupación', 'Fecha']
             st.dataframe(df, use_container_width=True)
         elif user or password: st.error("Invalid Credentials")
 else:
-    st.markdown("<h1 style='text-align: center; color: white; margin-bottom: 0px;'>Regístrate y sé parte de nuestra familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: white; margin-bottom: 0px;'>Sé parte de la familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
     
-    _, mid, _ = st.columns([1,2,1])
+    _, mid, _ = st.columns([1,1.8,1])
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
+        st.markdown('<div class="experience-tag">BARRIO EXPERIENCE</div>', unsafe_allow_html=True)
+        st.markdown("<h3 style='margin-top:0;'>Únete al movimiento</h3>", unsafe_allow_html=True)
+        st.markdown("<p style='opacity:0.7; font-size:0.9rem;'>Completa tus datos para vivir la verdadera experiencia del barrio.</p>", unsafe_allow_html=True)
         with st.form("modern_form", clear_on_submit=True):
             n = st.text_input("Nombre completo", placeholder="Ej: Juan Pérez")
             c = st.text_input("Correo electrónico", placeholder="ejemplo@yamb.com")
             t = st.text_input("Teléfono", placeholder="Ej: +57 300 123 4567")
-            o = st.text_input("Ocupación", placeholder="Ej: Productor, Artista, Emprendedor")
-            sub = st.form_submit_button("✅ Enviar registro", use_container_width=True)
+            o = st.text_input("Ocupación", placeholder="Ej: Productor, Artista")
+            sub = st.form_submit_button("✅ ENVIAR REGISTRO", use_container_width=True)
             
         if sub:
             status = guardar(n, c, t, o, datetime.now().strftime('%Y-%m-%d'))
