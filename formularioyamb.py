@@ -39,8 +39,8 @@ def obtener_datos():
 # =====================
 # UI MASTER BRANDING
 # =====================
-# Browser Tab Title Fixed (Removed YAMB prefix)
-st.set_page_config(page_title="VIVIENDO LA EXPERIENCIA DEL BARRIO", page_icon="❌", layout="wide")
+# Browser Tab Title (INCLUDES YAMB)
+st.set_page_config(page_title="YAMB VIVIENDO LA EXPERIENCIA DEL BARRIO", page_icon="❌", layout="wide")
 
 st.markdown("""
 <style>
@@ -139,7 +139,8 @@ else:
     _, mid, _ = st.columns([1, 1.5, 1])
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
-        st.markdown('<div class="unified-header"><div class="header-text">YAMB VIVIENDO LA EXPERIENCIA DEL BARRIO</div><br><a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="yt-pill">YAMB TV ▶️</a></div>', unsafe_allow_html=True)
+        # Visible Page Header (WITHOUT YAMB)
+        st.markdown('<div class="unified-header"><div class="header-text">VIVIENDO LA EXPERIENCIA DEL BARRIO</div><br><a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="yt-pill">YAMB TV ▶️</a></div>', unsafe_allow_html=True)
         st.markdown('<div style="padding: 40px;">', unsafe_allow_html=True)
         with st.form("reg_form", clear_on_submit=True):
             n = st.text_input("Nombre completo", placeholder="Ej: Juan Pérez")
@@ -166,7 +167,7 @@ else:
 st.markdown("""
 <div class="social-footer">
     <a href=\"https://www.instagram.com/yoamomibarrioyamb/\" target=\"_blank\" class="social-icon">INSTAGRAM</a>
-    <a href="#" class="social-icon">TIKTOK</a>
+    <a href=\"https://www.tiktok.com/@yambshop\" target=\"_blank\" class="social-icon">TIKTOK</a>
     <a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="social-icon">YOUTUBE</a>
 </div>
 """, unsafe_allow_html=True)
