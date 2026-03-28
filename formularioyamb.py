@@ -124,6 +124,15 @@ input {
     border-radius: 10px !important;
     padding: 12px !important;
 }
+
+.download-box {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    border-radius: 12px;
+    margin-top: 20px;
+    text-align: center;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -139,8 +148,15 @@ if admin_mode:
             data = obtener_datos()
             c1, c2 = st.columns(2)
             with c1: st.markdown(f'<div class="stat-card"><h3>{len(data)}</h3><p>Miembros Totales</p></div>', unsafe_allow_html=True)
-            with c2: st.markdown(f'<div class="stat-card"><h3>{datetime.now().strftime("%d/%m")}</h3><p>Última Sincronización</p></div>', unsafe_allow_html=True)
+            with c2: st.markdown(f'<div class="stat-card"><h3>{datetime.now().strftime("%d/%m")}</h3><p>×ltima Sincronización</p></div>', unsafe_allow_html=True)
+            
             st.dataframe(data, use_container_width=True)
+            
+            # DOWNLOAD BUTTON
+            st.markdown('<div class="download-box">', unsafe_allow_html=True)
+            csv = data.to_csv(index=False).encode('utf-8')
+            st.download_button("📥 DESCARGAR BASE DE DATOS (CSV)", csv, "yamb_members_db.csv", "text/csv", use_container_width=True)
+            st.markdown('</div>', unsafe_allow_html=True)
         elif u or p: st.error("Acceso Denegado")
 else:
     st.markdown("<h1 style='text-align: center; color: white; margin-bottom: 30px; font-weight:900;'>LA FAMILIA <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
@@ -160,7 +176,7 @@ else:
             n = st.text_input("Nombre completo", placeholder="Tu nombre aquí")
             c = st.text_input("Correo electrónico", placeholder="tucorreo@ejemplo.com")
             t = st.text_input("Teléfono", placeholder="WhatsApp")
-            o = st.text_input("¿Qué haces? (Ocupación)", placeholder="Ej: Músico, Diseñador...")
+            o = st.text_input("¿Qué haces? (Ocupación)", placeholder="Ej: Mùsico, Diseñador...")
             sub = st.form_submit_button("✅ UNIRME AHORA", use_container_width=True)
 
         if sub:
