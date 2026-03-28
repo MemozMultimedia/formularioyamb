@@ -6,7 +6,7 @@ import re
 import os
 
 # =====================
-# DB SETUP
+# DB SETUP (PROTECTED)
 # =====================
 conn = sqlite3.connect("datos_app.db", check_same_thread=False)
 cursor = conn.cursor()
@@ -22,13 +22,17 @@ def guardar(nombre, correo, telefono, ocupacion, fecha):
     if not nombre or not correo or not validar_email(correo):
         return "error"
     try:
-        cursor.execute("SELECT * FROM registros WHERE nombre=? OR correo=? OR telefono=?", (nombre, correo, telefono))
-        if cursor.fetchone(): return "duplicate"
+        # Check for duplicates before inserting to avoid IntegrityError crash
+        cursor.execute("SELECT id FROM registros WHERE nombre=? OR correo=? OR telefono=?", (nombre, correo, telefono))
+        if cursor.fetchone():
+            return "duplicate"
+        
         cursor.execute("INSERT INTO registros (nombre, correo, telefono, ocupacion, fecha) VALUES (?, ?, ?, ?, ?)",
                        (nombre, correo, telefono, ocupacion, fecha))
         conn.commit()
         return "success"
-    except sqlite3.IntegrityError: return "duplicate"
+    except Exception as e:
+        return "error"
 
 def obtener_datos():
     return pd.read_sql_query("SELECT nombre, correo, telefono, ocupacion, fecha FROM registros ORDER BY fecha DESC", conn)
@@ -107,6 +111,14 @@ header { visibility: hidden; }
 .social-footer { text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
 .social-icon { color: white; font-size: 1.2rem; margin: 0 15px; text-decoration: none; opacity: 0.6; transition: 0.3s; font-weight: 800; }
 .social-icon:hover { opacity: 1; color: #ff0000; text-shadow: 0 0 10px #ff0000; }
+
+.purpose-card {
+    margin-top: 25px; padding: 30px; text-align: center;
+    background: rgba(20, 20, 20, 0.3); border-radius: 35px;
+    border: 1px solid rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
+}
+.purpose-title { font-weight: 800; font-size: 1.5rem; color: #ff0000; margin-bottom: 10px; }
+.purpose-text { font-size: 1rem; color: rgba(255,255,255,0.7); line-height: 1.6; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -123,7 +135,7 @@ if admin_trigger:
             </div>
         """, unsafe_allow_html=True)
         with st.form("admin_auth"):
-            u, p = st.text_input("MASTER IDENTIFICATION"), st.text_input("SECURITY TOKEN", type="password")
+            u, p = st.text_input("MASTER IDENTIFICATION", placeholder=\"User\"), st.text_input("SECURITY TOKEN", type=\"password\", placeholder=\"••••••••\")
             login = st.form_submit_button("🚀 INITIALIZE ACCESS", use_container_width=True)
         if login and u == "Yamb" and p == "LavueltaesDios1*":
             st.session_state["auth"] = True
@@ -132,18 +144,19 @@ if admin_trigger:
             st.dataframe(df_export, use_container_width=True)
             csv = df_export.to_csv(index=False).encode('utf-8')
             st.download_button("📥 DESCARGAR BASE DE DATOS (CSV)", data=csv, file_name='yamb_registros.csv', mime='text/csv', use_container_width=True)
+        elif login: st.error("Credenciales inválidas.")
 else:
     st.markdown("<div style='text-align: center; color: white; font-weight:900; font-size: 3rem; margin-bottom: 30px; letter-spacing: -2px;'>Únete a nuestra familia <span style='color:#ff0000;'>YAMB</span></div>", unsafe_allow_html=True)
     _, mid, _ = st.columns([1, 1.5, 1])
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
-        st.markdown('<div class="unified-header"><div class="header-text">EXPERIENCIA DEL BARRIO</div><br><a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" class="yt-pill">YAMB TV ▶️</a></div>', unsafe_allow_html=True)
-        st.markdown('<div style="padding: 40px;">', unsafe_allow_html=True)
+        st.markdown('<div class="unified-header"><div class="header-text">VIVIENDO LA EXPERIENCIA DEL BARRIO</div><br><a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target=\"_blank\" class=\"yt-pill\">YAMB TV ▶️</a></div>', unsafe_allow_html=True)
+        st.markdown('<div style=\"padding: 40px;\">', unsafe_allow_html=True)
         with st.form("reg_form", clear_on_submit=True):
-            n = st.text_input("Nombre completo")
-            c = st.text_input("Email")
-            t = st.text_input("WhatsApp")
-            o = st.text_input("Ocupación")
+            n = st.text_input("Nombre completo", placeholder=\"Ej: Juan Pérez\")
+            c = st.text_input("Email", placeholder=\"ejemplo@yamb.com\")
+            t = st.text_input("WhatsApp", placeholder=\"+57\")
+            o = st.text_input("Ocupación", placeholder=\"Artista, Diseñador, etc.\")
             sub = st.form_submit_button("UNIRME AHORA", use_container_width=True)
         if sub:
             status = guardar(n, c, t, o, datetime.now().strftime('%Y-%m-%d'))
@@ -151,11 +164,20 @@ else:
             elif status == "duplicate": st.warning("Ya eres parte de la familia.")
             else: st.error("Revisa tus datos.")
         st.markdown('</div></div>', unsafe_allow_html=True)
+        st.markdown('''
+            <div class=\"purpose-card\">
+                <div class=\"purpose-title\">GRACIAS POR TU COMPRA</div>
+                <div class=\"purpose-text\">
+                    CADA PRODUCTO DE YAMB TIENE UN PROPÓSITO.<br>
+                    CON TU COMPRA, APOYAS A JÓVENES TALENTOS EN LA MÙSICA Y EL ARTE, AYUDÁNDOLOS A CRECER, CREAR Y COMPARTIR SU PASIÓN CON EL MUNDO.
+                </div>
+            </div>
+        ''', unsafe_allow_html=True)
 
 st.markdown("""
-<div class="social-footer">
-    <a href="#" class="social-icon">INSTAGRAM</a>
-    <a href="#" class="social-icon">TIKTOK</a>
-    <a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" class="social-icon">YOUTUBE</a>
+<div class=\"social-footer\">
+    <a href=\"#\" class=\"social-icon\">INSTAGRAM</a>
+    <a href=\"#\" class=\"social-icon\">TIKTOK</a>
+    <a href=\"https://www.youtube.com/@YoAmoMiBarrioOFICIAL\" target=\"_blank\" class=\"social-icon\">YOUTUBE</a>
 </div>
 """, unsafe_allow_html=True)
