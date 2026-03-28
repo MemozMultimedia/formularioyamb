@@ -11,7 +11,7 @@ import os
 conn = sqlite3.connect("datos_app.db", check_same_thread=False)
 cursor = conn.cursor()
 
-# Usamos IF NOT EXISTS para proteger los datos actuales
+# Aseguramos que la tabla tenga la estructura correcta
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS registros (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +51,8 @@ def guardar(nombre, correo, telefono, ocupacion, fecha):
     return "error"
 
 def obtener_datos():
-    return pd.read_sql_query("SELECT * FROM registros ORDER BY fecha DESC", conn)
+    # Forzamos la lectura de las columnas correctas
+    return pd.read_sql_query("SELECT nombre, correo, telefono, ocupacion, fecha FROM registros ORDER BY fecha DESC", conn)
 
 # =====================
 # UI STREAMLIT
@@ -84,7 +85,9 @@ if admin_mode:
         if user == "Yamb" and password == "LavueltaesDios1*":
             st.success("✅ Acceso concedido")
             df = obtener_datos()
-            st.dataframe(df.drop(columns=['id']), use_container_width=True)
+            # Renombramos columnas para que el Admin las vea perfectas
+            df.columns = ['Nombre', 'Correo', 'Teléfono', 'Ocupación', 'Fecha']
+            st.dataframe(df, use_container_width=True)
             if os.path.exists('reporte_registros.txt'):
                 with open('reporte_registros.txt', 'rb') as f:
                     st.download_button("⏬ Descargar reporte (.txt)", f, file_name='reporte_registros.txt')
@@ -104,6 +107,6 @@ else:
         if submit:
             res = guardar(nombre, correo, telefono, ocupacion, datetime.now().strftime('%Y-%m-%d'))
             if res == "success": st.success("✅ ¡Registro enviado exitosamente!")
-            elif res == "duplicate": st.error("⚠️ Error: El nombre, correo o teléfono ya están registrados.")
+            elif res == "duplicate": st.error("⚠️ Error: Estos datos ya están registrados.")
             else: st.error("⚠️ Por favor, completa los campos correctamente.")
         st.markdown('</div>', unsafe_allow_html=True)
