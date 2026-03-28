@@ -81,17 +81,19 @@ header { visibility: hidden; }
 .experience-link {
     background: rgba(255, 0, 0, 0.2);
     color: #ff0000 !important;
-    padding: 6px 14px;
+    padding: 8px 16px;
     border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 800;
+    font-size: 0.85rem;
+    font-weight: 900;
     text-decoration: none !important;
     display: inline-block;
     width: fit-content;
     transition: 0.3s;
-    border: 1px solid rgba(255, 0, 0, 0.3);
+    border: 2px solid rgba(255, 0, 0, 0.4);
 }
-.experience-link:hover { background: rgba(255, 0, 0, 0.4); transform: scale(1.05); }
+.experience-link:hover { background: rgba(255, 0, 0, 0.6); transform: scale(1.05); box-shadow: 0 0 20px rgba(255,0,0,0.4); }
+
+.yt-hint { color: #ff0000; font-size: 0.75rem; font-weight: 700; opacity: 0.9; margin-top: -5px; }
 
 input {
     background: rgba(255,255,255,0.08) !important;
@@ -122,9 +124,9 @@ else:
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
         st.markdown('<a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="experience-link">BARRIO EXPERIENCE ▶️</a>', unsafe_allow_html=True)
-        st.markdown("<h3 style='margin:0;'>Únete al movimiento</h3>", unsafe_allow_html=True)
-        st.markdown("<p style='opacity:0.7; font-size:0.9rem; margin-bottom: 5px;'>Completa tus datos para vivir la verdadera experiencia del barrio.</p>", unsafe_allow_html=True)
+        st.markdown('<div class="yt-hint">☝️ Haz clic arriba para ver lo ùltimo en nuestro YouTube</div>', unsafe_allow_html=True)
         
+        st.markdown("<h3 style='margin:0;'>Únete al movimiento</h3>", unsafe_allow_html=True)
         with st.form("modern_form", clear_on_submit=True):
             n = st.text_input("Nombre completo", placeholder="Ej: Juan Pérez")
             c = st.text_input("Correo electrónico", placeholder="ejemplo@yamb.com")
