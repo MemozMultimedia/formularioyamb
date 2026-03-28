@@ -54,18 +54,18 @@ html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
 header { visibility: hidden; }
 
 .main-card {
-    background: rgba(10, 10, 10, 0.7);
-    border: 1px solid rgba(255, 0, 0, 0.2);
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid rgba(255, 0, 0, 0.3);
     border-radius: 28px;
-    padding: 45px;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 0 50px rgba(255, 0, 0, 0.1);
-    margin-top: -30px;
-    transition: 0.3s ease-in-out;
+    padding: 35px;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.15);
+    margin-top: -10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
-
-.main-card:hover { border-color: rgba(255, 0, 0, 0.5); }
 
 .yamb-red { color: #ff0000; font-weight: 900; text-shadow: 0 0 10px rgba(255,0,0,0.3); }
 
@@ -73,33 +73,36 @@ header { visibility: hidden; }
     background: linear-gradient(90deg, #ff0000, #800000) !important;
     color: white !important;
     border-radius: 14px !important;
-    padding: 14px 28px !important;
+    padding: 12px 28px !important;
     font-weight: 800 !important;
     border: none !important;
-    box-shadow: 0 4px 15px rgba(255,0,0,0.2) !important;
 }
+
+.experience-link {
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff0000 !important;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-decoration: none !important;
+    display: inline-block;
+    width: fit-content;
+    transition: 0.3s;
+    border: 1px solid rgba(255, 0, 0, 0.3);
+}
+.experience-link:hover { background: rgba(255, 0, 0, 0.4); transform: scale(1.05); }
 
 input {
     background: rgba(255,255,255,0.08) !important;
     color: white !important;
     border-radius: 10px !important;
 }
-
-.experience-tag {
-    background: rgba(255, 0, 0, 0.1);
-    color: #ff0000;
-    padding: 5px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    display: inline-block;
-    margin-bottom: 15px;
-}
 </style>
 """, unsafe_allow_html=True)
 
 top_l, top_r = st.columns([9, 1])
-with top_r: admin_mode = st.toggle("🔐", help="Admin")
+with top_r: admin_mode = st.toggle("🔐", help="Acceso Admin")
 
 if admin_mode:
     st.markdown("<h2 style='text-align: center; color: white;'>📂 Insight Center</h2>", unsafe_allow_html=True)
@@ -113,14 +116,15 @@ if admin_mode:
             st.dataframe(df, use_container_width=True)
         elif user or password: st.error("Invalid Credentials")
 else:
-    st.markdown("<h1 style='text-align: center; color: white; margin-bottom: 0px;'>Sé parte de la familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: white;'>Sé parte de la familia <span class='yamb-red'>YAMB</span></h1>", unsafe_allow_html=True)
     
     _, mid, _ = st.columns([1,1.8,1])
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
-        st.markdown('<div class="experience-tag">BARRIO EXPERIENCE</div>', unsafe_allow_html=True)
-        st.markdown("<h3 style='margin-top:0;'>Únete al movimiento</h3>", unsafe_allow_html=True)
-        st.markdown("<p style='opacity:0.7; font-size:0.9rem;'>Completa tus datos para vivir la verdadera experiencia del barrio.</p>", unsafe_allow_html=True)
+        st.markdown('<a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="experience-link">BARRIO EXPERIENCE ▶️</a>', unsafe_allow_html=True)
+        st.markdown("<h3 style='margin:0;'>Únete al movimiento</h3>", unsafe_allow_html=True)
+        st.markdown("<p style='opacity:0.7; font-size:0.9rem; margin-bottom: 5px;'>Completa tus datos para vivir la verdadera experiencia del barrio.</p>", unsafe_allow_html=True)
+        
         with st.form("modern_form", clear_on_submit=True):
             n = st.text_input("Nombre completo", placeholder="Ej: Juan Pérez")
             c = st.text_input("Correo electrónico", placeholder="ejemplo@yamb.com")
@@ -131,6 +135,6 @@ else:
         if sub:
             status = guardar(n, c, t, o, datetime.now().strftime('%Y-%m-%d'))
             if status == "success": st.balloons(); st.success("✅ ¡Registro enviado exitosamente!")
-            elif status == "duplicate": st.warning("⚠️ Error: Estos datos ya están registrados.")
-            else: st.error("⚠️ Por favor, completa los campos correctamente.")
+            elif status == "duplicate": st.warning("⚠️ Error: Datos registrados.")
+            else: st.error("⚠️ Completa los campos correctamente.")
         st.markdown('</div>', unsafe_allow_html=True)
