@@ -38,11 +38,10 @@ def obtener_datos():
 # =====================
 st.set_page_config(
     page_title="YAMB | Viviendo la experiencia del barrio",
-    page_icon="❌", # Usamos un emoji que represente el color rojo inicialmente
+    page_icon="❌", 
     layout="wide"
 )
 
-# METADATOS Y FAVICON PERSONALIZADO (Y ROJA)
 st.markdown("""
     <head>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22red%22 font-weight=%22bold%22>Y</text></svg>">
@@ -161,12 +160,23 @@ if admin_mode:
     st.markdown("<h1 style='text-align: center; color: white;'>📂 Insight Center</h1>", unsafe_allow_html=True)
     _, mid, _ = st.columns([1, 2, 1])
     with mid:
-        u, p = st.text_input("Key"), st.text_input("Pass", type="password")
-        if u == "Yamb" and p == "LavueltaesDios1*":
+        with st.form("admin_login"):
+            u = st.text_input("Master Key")
+            p = st.text_input("Token", type="password")
+            login_btn = st.form_submit_button("🚀 INICIAR SESIÓN", use_container_width=True)
+            
+        if login_btn:
+            if u == "Yamb" and p == "LavueltaesDios1*":
+                st.session_state["admin_auth"] = True
+            else:
+                st.error("Credenciales Incorrectas")
+
+        if st.session_state.get("admin_auth"):
+            st.success("Acceso Autorizado")
             df = obtener_datos()
             st.dataframe(df, use_container_width=True)
             csv = df.to_csv(index=False).encode('utf-8')
-            st.download_button("📥 EXPORTAR DB", csv, "yamb_pro.csv", "text/csv", use_container_width=True)
+            st.download_button("📥 EXPORTAR DB (CSV)", csv, "yamb_pro.csv", "text/csv", use_container_width=True)
 else:
     st.markdown("<h1 style='text-align: center; color: white; font-weight:900; font-size: 3.5rem; letter-spacing: -3px;'>Únete a nuestra familia <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
 
@@ -200,7 +210,7 @@ else:
                 <div class="footer-title">GRACIAS POR TU COMPRA</div>
                 <div class="footer-text">
                     CADA PRODUCTO DE YAMB TIENE UN PROPÓSITO.<br>
-                    CON TU COMPRA, APOYAS A JÓVENES TALENTOS EN LA MÙSICA Y EL ARTE, AYUDÁNDOLOS A CRECER, CREAR Y COMPARTIR SU PASIÓN CON EL MUNDO.
+                    CON TU COMPRA, APOYAS A JÓVENES TALENTOS EN LA MÚSICA Y EL ARTE, AYUDÁNDOLOS A CRECER, CREAR Y COMPARTIR SU PASIÓN CON EL MUNDO.
                 </div>
                 <div class="footer-highlight">
                     COMPRASTE CON PROPÓSITO. APOYASTE EL TALENTO.
