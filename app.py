@@ -6,7 +6,7 @@ import re
 import os
 
 # =====================
-# DB SETUP (PROTECTED)
+# DB SETUP
 # =====================
 conn = sqlite3.connect("datos_app.db", check_same_thread=False)
 cursor = conn.cursor()
@@ -19,138 +19,103 @@ def validar_email(email):
     return re.match(r'^\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', email)
 
 def guardar(nombre, correo, telefono, ocupacion, fecha):
-    if nombre and correo and validar_email(correo):
-        try:
-            cursor.execute("SELECT * FROM registros WHERE nombre=? OR correo=? OR telefono=?", (nombre, correo, telefono))
-            if cursor.fetchone(): return "duplicate"
-            cursor.execute("INSERT INTO registros (nombre, correo, telefono, ocupacion, fecha) VALUES (?, ?, ?, ?, ?)",
-                           (nombre, correo, telefono, ocupacion, fecha))
-            conn.commit()
-            return "success"
-        except sqlite3.IntegrityError: return "duplicate"
-    return "error"
+    if not nombre or not correo or not validar_email(correo):
+        return "error"
+    try:
+        cursor.execute("SELECT * FROM registros WHERE nombre=? OR correo=? OR telefono=?", (nombre, correo, telefono))
+        if cursor.fetchone(): return "duplicate"
+        cursor.execute("INSERT INTO registros (nombre, correo, telefono, ocupacion, fecha) VALUES (?, ?, ?, ?, ?)",
+                       (nombre, correo, telefono, ocupacion, fecha))
+        conn.commit()
+        return "success"
+    except sqlite3.IntegrityError: return "duplicate"
 
 def obtener_datos():
     return pd.read_sql_query("SELECT nombre, correo, telefono, ocupacion, fecha FROM registros ORDER BY fecha DESC", conn)
 
 # =====================
-# MASTER URBAN BRANDING
+# UI MASTER BRANDING
 # =====================
-st.set_page_config(
-    page_title="YAMB | Viviendo la experiencia del barrio",
-    page_icon="❌",
-    layout="wide"
-)
-
-st.markdown("""
-    <head>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 fill=%22red%22 font-weight=%22bold%22>Y</text></svg>">
-    </head>
-""", unsafe_allow_html=True)
+st.set_page_config(page_title="YAMB | Experience", page_icon="❌", layout="wide")
 
 st.markdown("""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800;900&display=swap');
-html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;800;900&family=Source+Sans+3:wght@400;700;900&display=swap');
+html, body { font-family: 'Inter', sans-serif; background-color: #000; }
 
+.admin-font { font-family: 'Source Sans 3', sans-serif !important; }
 .block-container { padding-top: 1rem !important; }
 header { visibility: hidden; }
 
 .stApp {
     background: radial-gradient(circle at 50% 50%, #1a0000 0%, #000000 100%) !important;
 }
-.stApp::before {
-    content: '';
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: url(\"https://raw.githubusercontent.com/MemozMultimedia/mzmstill/main/hf_20260328_023420_f7d7d2a9-1955-4269-a97a-c444fbbd7a73.png\");
-    background-size: cover; opacity: 0.12; filter: brightness(0.7);
-    z-index: -1;
-}
 
 .main-card {
-    background: rgba(20, 20, 20, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(10, 10, 10, 0.6);
+    border: 1px solid rgba(255, 0, 0, 0.2);
     border-radius: 40px;
-    backdrop-filter: blur(25px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
+    backdrop-filter: blur(35px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    padding: 0px; overflow: hidden;
 }
 
-/* MASTER URBAN HEADER */
 .unified-header {
     background: linear-gradient(135deg, #220000 0%, #000000 100%);
-    padding: 35px 20px;
-    text-align: center;
-    border-bottom: 2px solid #ff0000;
-    position: relative;
+    padding: 35px 20px; text-align: center; border-bottom: 2px solid #ff0000;
 }
-.unified-header::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; width: 100%; height: 2px;
-    background: #ff0000; box-shadow: 0 0 15px #ff0000;
-}
-.header-text {
-    font-weight: 900; 
-    font-size: 1.8rem; 
-    background: linear-gradient(to bottom, #ffffff 40%, #888888 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 4px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    font-style: italic;
-    filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
-}
-.yt-pill {
-    background: #ff0000; color: white !important;
-    padding: 12px 25px; border-radius: 4px;
-    font-weight: 900; font-size: 0.85rem;
-    text-decoration: none;
-    display: inline-block;
-    transition: 0.3s;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-.yt-pill:hover { background: white; color: black !important; box-shadow: 0 0 20px white; }
 
-.form-body { padding: 40px; }
+.header-text { font-weight: 900; font-size: 1.8rem; color: white; letter-spacing: 4px; }
+
+.yt-pill {
+    background: #ff0000; padding: 12px 30px; border-radius: 5px;
+    font-weight: 900; color: white !important; text-decoration: none !important;
+    display: inline-block; transition: 0.4s; box-shadow: 0 0 15px rgba(255,0,0,0.5);
+}
 
 .stButton>button {
     background: white !important; color: black !important;
-    border-radius: 12px !important; padding: 15px !important;
-    font-weight: 900 !important; border: none !important;
-    transition: 0.4s !important;
-    text-transform: uppercase;
+    border-radius: 12px !important; font-weight: 900 !important;
+    animation: pulseGlow 2s infinite ease-in-out !important;
 }
-.stButton>button:hover {
-    background: #ff0000 !important; color: white !important;
-    transform: translateY(-2px);
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
+    50% { box-shadow: 0 0 25px rgba(255,0,0,0.8); }
+    100% { box-shadow: 0 0 5px rgba(255,255,255,0.2); }
 }
-input { background: rgba(255,255,255,0.05) !important; color: white !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 10px !important; }
+
+.social-footer { text-align: center; margin-top: 50px; padding: 20px; border-top: 1px solid rgba(255,255,255,0.1); }
+.social-icon { color: white; font-size: 1.5rem; margin: 0 15px; text-decoration: none; opacity: 0.6; transition: 0.3s; }
+.social-icon:hover { opacity: 1; color: #ff0000; text-shadow: 0 0 10px #ff0000; }
 </style>
 """, unsafe_allow_html=True)
 
-# Admin Sidebar
-admin_mode = st.sidebar.toggle("🔐 Admin Access")
-if admin_mode:
-    u = st.text_input("Master Key")
-    p = st.text_input("Token", type="password")
-    if u == "Yamb" and p == "LavueltaesDios1*":
-        st.dataframe(obtener_datos(), use_container_width=True)
+col_t1, col_t2 = st.columns([9, 1])
+with col_t2: admin_trigger = st.toggle("🔐")
+
+if admin_trigger:
+    st.markdown("<br><br>", unsafe_allow_html=True)
+    _, mid_admin, _ = st.columns([1, 1.2, 1])
+    with mid_admin:
+        st.markdown("<div class='admin-font' style='text-align: center; color: white; font-weight: 900; margin-bottom: 40px; font-size: 1.8rem;'>🔐 INSIGHT CENTER</div>", unsafe_allow_html=True)
+        with st.form("admin_auth"):
+            u, p = st.text_input("MASTER IDENTIFICATION"), st.text_input("SECURITY TOKEN", type="password")
+            login = st.form_submit_button("🚀 INITIALIZE ACCESS", use_container_width=True)
+        if login and u == "Yamb" and p == "LavueltaesDios1*":
+            st.session_state["auth"] = True
+        if st.session_state.get("auth"):
+            df_export = obtener_datos()
+            st.dataframe(df_export, use_container_width=True)
+            csv = df_export.to_csv(index=False).encode('utf-8')
+            st.download_button("📥 DESCARGAR BASE DE DATOS (CSV)", data=csv, file_name='yamb_data.csv', mime='text/csv', use_container_width=True)
 else:
-    st.markdown("<h1 style='text-align: center; color: white; font-weight:900; font-size: 3rem; letter-spacing: -3px;'>Únete a nuestra familia <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
+    st.markdown("<div style='text-align: center; color: white; font-weight:900; font-size: 3rem; margin-bottom: 30px;'>Únete a nuestra familia <span style='color:#ff0000;'>YAMB</span></div>", unsafe_allow_html=True)
     _, mid, _ = st.columns([1, 1.5, 1])
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
-        st.markdown('''
-            <div class="unified-header">
-                <div class="header-text">VIVIENDO LA EXPERIENCIA DEL BARRIO</div>
-                <a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="yt-pill">CANAL OFICIAL YAMB TV ▶️</a>
-            </div>
-        ''', unsafe_allow_html=True)
-        st.markdown('<div class="form-body">', unsafe_allow_html=True)
-        with st.form("master_form", clear_on_submit=True):
+        st.markdown('<div class="unified-header"><div class="header-text">EXPERIENCIA DEL BARRIO</div><br><a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" class="yt-pill">YAMB TV ▶️</a></div>', unsafe_allow_html=True)
+        with st.form("reg_form", clear_on_submit=True):
             n = st.text_input("Nombre completo")
             c = st.text_input("Email")
             t = st.text_input("WhatsApp")
@@ -158,6 +123,15 @@ else:
             sub = st.form_submit_button("UNIRME AHORA", use_container_width=True)
         if sub:
             status = guardar(n, c, t, o, datetime.now().strftime('%Y-%m-%d'))
-            if status == "success": st.balloons(); st.success("¡Bienvenido a la verdadera vuelta!")
-            else: st.error("Error en el registro.")
-        st.markdown('</div></div>', unsafe_allow_html=True)
+            if status == "success": st.balloons(); st.success(f"¡Bienvenido a la verdadera vuelta, {n}!")
+            elif status == "duplicate": st.warning("Ya eres parte de la familia.")
+            else: st.error("Revisa tus datos.")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown("""
+<div class="social-footer">
+    <a href="#" class="social-icon">INSTAGRAM</a>
+    <a href="#" class="social-icon">TIKTOK</a>
+    <a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" class="social-icon">YOUTUBE</a>
+</div>
+""", unsafe_allow_html=True)
