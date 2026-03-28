@@ -44,7 +44,6 @@ st.markdown("""
 
 html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
 
-/* Fondo Dinámico con Arte Movimiento */
 .stApp {
     background: radial-gradient(circle at 50% 50%, #1a0000 0%, #000000 100%) !important;
     overflow: hidden;
@@ -59,7 +58,6 @@ html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
     z-index: -1;
 }
 
-/* Animación de Aura Roja */
 .stApp::after {
     content: '';
     position: fixed;
@@ -124,7 +122,19 @@ html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
 
 input { background: rgba(255,255,255,0.05) !important; color: white !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 12px !important; }
 
-.stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,0,0,0.3); padding: 25px; border-radius: 20px; text-align: center; }
+.footer-message {
+    margin-top: 40px;
+    padding: 40px;
+    text-align: center;
+    background: rgba(255, 0, 0, 0.05);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.footer-title { font-weight: 900; font-size: 1.4rem; color: #ff0000; margin-bottom: 15px; }
+.footer-text { font-size: 1rem; color: #cccccc; line-height: 1.6; }
+.footer-highlight { font-weight: 700; color: white; margin-top: 15px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -138,9 +148,6 @@ if admin_mode:
         u, p = st.text_input("Key"), st.text_input("Pass", type="password")
         if u == "Yamb" and p == "LavueltaesDios1*":
             df = obtener_datos()
-            c1, c2 = st.columns(2)
-            with c1: st.markdown(f'<div class="stat-card"><h2>{len(df)}</h2><p>MIEMBROS</p></div>', unsafe_allow_html=True)
-            with c2: st.markdown(f'<div class="stat-card"><h2>{datetime.now().strftime("%d/%m")}</h2><p>ESTADO</p></div>', unsafe_allow_html=True)
             st.dataframe(df, use_container_width=True)
             csv = df.to_csv(index=False).encode('utf-8')
             st.download_button("📥 EXPORTAR DB", csv, "yamb_pro.csv", "text/csv", use_container_width=True)
@@ -171,3 +178,17 @@ else:
             elif status == "duplicate": st.warning("Tus datos ya están registrados.")
             else: st.error("Faltan datos por completar.")
         st.markdown('</div></div>', unsafe_allow_html=True)
+
+        # Footer Message
+        st.markdown('''
+            <div class="footer-message">
+                <div class="footer-title">GRACIAS POR TU COMPRA</div>
+                <div class="footer-text">
+                    CADA PRODUCTO DE YAMB TIENE UN PROPÓSITO.<br>
+                    CON TU COMPRA, APOYAS A JÓVENES TALENTOS EN LA MÚSICA Y EL ARTE, AYUDÁNDOLOS A CRECER, CREAR Y COMPARTIR SU PASIÓN CON EL MUNDO.
+                </div>
+                <div class="footer-highlight">
+                    COMPRASTE CON PROPÓSITO. APOYASTE EL TALENTO.
+                </div>
+            </div>
+        ''', unsafe_allow_html=True)
