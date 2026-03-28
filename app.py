@@ -34,9 +34,9 @@ def obtener_datos():
     return pd.read_sql_query("SELECT nombre, correo, telefono, ocupacion, fecha FROM registros ORDER BY fecha DESC", conn)
 
 # =====================
-# UI MODERN LOOK & FEEL
+# DYNAMIC ARTISTIC UI
 # =====================
-st.set_page_config(page_title="YAMB | Viviendo la experiencia del barrio", layout="wide")
+st.set_page_config(page_title="YAMB | Experiencia Pro", layout="wide")
 
 st.markdown("""
 <style>
@@ -44,135 +44,130 @@ st.markdown("""
 
 html, body, [class*=\"st-expander\"] { font-family: 'Inter', sans-serif; }
 
+/* Fondo Dinámico con Arte Movimiento */
 .stApp {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-                url("https://raw.githubusercontent.com/MemozMultimedia/mzmstill/main/hf_20260328_023420_f7d7d2a9-1955-4269-a97a-c444fbbd7a73.png") no-repeat center center fixed !important;
-    background-size: cover !important;
+    background: radial-gradient(circle at 50% 50%, #1a0000 0%, #000000 100%) !important;
+    overflow: hidden;
 }
 
-.block-container { padding-top: 1rem !important; }
-header { visibility: hidden; }
+.stApp::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: url("https://raw.githubusercontent.com/MemozMultimedia/mzmstill/main/hf_20260328_023420_f7d7d2a9-1955-4269-a97a-c444fbbd7a73.png");
+    background-size: cover; opacity: 0.12; filter: contrast(1.2) brightness(0.8);
+    z-index: -1;
+}
+
+/* Animación de Aura Roja */
+.stApp::after {
+    content: '';
+    position: fixed;
+    top: -50%; left: -50%; width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,0,0,0.08) 0%, transparent 40%);
+    animation: pulse 10s infinite alternate ease-in-out;
+    z-index: -1;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-10%, -10%); }
+    100% { transform: translate(10%, 10%); }
+}
 
 .main-card {
-    background: rgba(10, 10, 10, 0.9);
-    border: 1px solid rgba(255, 0, 0, 0.4);
-    border-radius: 32px;
+    background: rgba(20, 20, 20, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 40px;
     padding: 0px;
-    backdrop-filter: blur(30px);
-    box-shadow: 0 0 70px rgba(255, 0, 0, 0.25);
+    backdrop-filter: blur(25px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     margin-top: 10px;
     overflow: hidden;
 }
 
 .unified-header {
-    background: linear-gradient(135deg, #ff0000 0%, #600000 100%);
-    padding: 35px 25px;
+    background: linear-gradient(135deg, rgba(255,0,0,0.8) 0%, rgba(100,0,0,0.9) 100%);
+    padding: 40px 20px;
     text-align: center;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .header-text {
-    font-weight: 900;
-    font-size: 1.5rem;
-    color: white;
+    font-weight: 900; font-size: 1.6rem; color: white;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
     letter-spacing: -1px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
 }
 
 .yt-pill {
-    background: rgba(255, 255, 255, 1);
-    color: #ff0000 !important;
-    text-decoration: none !important;
-    padding: 12px 24px;
-    border-radius: 50px;
-    font-weight: 900;
-    font-size: 0.9rem;
-    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
-    transition: 0.3s ease-in-out;
+    background: white; color: black !important;
+    padding: 10px 25px; border-radius: 50px;
+    font-weight: 900; font-size: 0.85rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transition: 0.3s;
 }
 
-.yt-pill:hover { transform: scale(1.1); box-shadow: 0 0 25px rgba(255, 255, 255, 0.5); }
+.yt-pill:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(255,255,255,0.4); }
 
-.stat-card {
-    background: rgba(255, 255, 255, 0.05);
-    border-left: 4px solid #ff0000;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
-
-.form-body { padding: 40px; }
+.form-body { padding: 45px; }
 
 .stButton>button {
-    background: linear-gradient(90deg, #ff0000, #b30000) !important;
-    color: white !important;
-    border-radius: 12px !important;
-    padding: 15px !important;
-    font-weight: 900 !important;
-    border: none !important;
-    font-size: 1.1rem !important;
+    background: white !important; color: black !important;
+    border-radius: 15px !important; padding: 18px !important;
+    font-weight: 900 !important; border: none !important;
+    transition: 0.4s !important;
 }
 
-input {
-    background: rgba(255,255,255,0.07) !important;
-    color: white !important;
-    border: 1px solid rgba(255,255,255,0.1) !important;
-    border-radius: 10px !important;
-    padding: 12px !important;
+.stButton>button:hover {
+    background: #ff0000 !important; color: white !important;
+    transform: translateY(-3px); box-shadow: 0 10px 20px rgba(255,0,0,0.4) !important;
 }
 
-.download-box {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 15px;
-    border-radius: 12px;
-    margin-top: 20px;
-    text-align: center;
-    border: 1px dashed rgba(255, 255, 255, 0.1);
-}
+input { background: rgba(255,255,255,0.05) !important; color: white !important; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 12px !important; }
+
+.stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,0,0,0.3); padding: 25px; border-radius: 20px; text-align: center; }
 </style>
 """, unsafe_allow_html=True)
 
 top_l, top_r = st.columns([9, 1])
-with top_r: admin_mode = st.toggle("🔐", help="Insight Center Access")
+with top_r: admin_mode = st.toggle("🔐")
 
 if admin_mode:
-    st.markdown("<h1 style='text-align: center; color: white; margin-bottom: 30px;'>📂 Insight <span style='color:#ff0000;'>Center</span></h1>", unsafe_allow_html=True)
-    _, col_b, _ = st.columns([1, 1.5, 1])
-    with col_b:
-        u, p = st.text_input("Master Key"), st.text_input("Token", type="password")
+    st.markdown("<h1 style='text-align: center; color: white;'>📂 Insight Center</h1>", unsafe_allow_html=True)
+    _, mid, _ = st.columns([1, 2, 1])
+    with mid:
+        u, p = st.text_input("Key"), st.text_input("Pass", type="password")
         if u == "Yamb" and p == "LavueltaesDios1*":
-            data = obtener_datos()
+            df = obtener_datos()
             c1, c2 = st.columns(2)
-            with c1: st.markdown(f'<div class="stat-card"><h3>{len(data)}</h3><p>Miembros Totales</p></div>', unsafe_allow_html=True)
-            with c2: st.markdown(f'<div class="stat-card"><h3>{datetime.now().strftime("%d/%m")}</h3><p>Última Sincronización</p></div>', unsafe_allow_html=True)
-            st.dataframe(data, use_container_width=True)
-            st.markdown('<div class="download-box">', unsafe_allow_html=True)
-            csv = data.to_csv(index=False).encode('utf-8')
-            st.download_button("📥 DESCARGAR CSV", csv, "yamb_db.csv", "text/csv", use_container_width=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+            with c1: st.markdown(f'<div class="stat-card"><h2>{len(df)}</h2><p>MIEMBROS</p></div>', unsafe_allow_html=True)
+            with c2: st.markdown(f'<div class="stat-card"><h2>{datetime.now().strftime("%d/%m")}</h2><p>ESTADO</p></div>', unsafe_allow_html=True)
+            st.dataframe(df, use_container_width=True)
+            csv = df.to_csv(index=False).encode('utf-8')
+            st.download_button("📥 EXPORTAR DB", csv, "yamb_pro.csv", "text/csv", use_container_width=True)
 else:
-    st.markdown("<h1 style='text-align: center; color: white; margin-bottom: 30px; font-weight:900;'>ÚNETE A NUESTRA FAMILIA <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: white; font-weight:900; font-size: 3.5rem; letter-spacing: -3px;'>Únete a nuestra familia <span style='color:#ff0000;'>YAMB</span></h1>", unsafe_allow_html=True)
 
-    _, mid, _ = st.columns([1, 1.8, 1])
+    _, mid, _ = st.columns([1, 1.6, 1])
     with mid:
         st.markdown('<div class="main-card">', unsafe_allow_html=True)
         st.markdown('''
             <div class="unified-header">
-                <div class="header-text">VIVIENDO LA EXPERIENCIA DEL BARRIO</div>
+                <div class="header-text">VIVIENDO LA EXPERIENCIA DEL BARRIO</div><br>
                 <a href="https://www.youtube.com/@YoAmoMiBarrioOFICIAL" target="_blank" class="yt-pill">CANAL OFICIAL YAMB TV ▶️</a>
             </div>
         ''', unsafe_allow_html=True)
+        
         st.markdown('<div class="form-body">', unsafe_allow_html=True)
         with st.form("compact_form", clear_on_submit=True):
-            n = st.text_input("Nombre completo", placeholder="Tu nombre aquí")
-            c = st.text_input("Correo electrónico", placeholder="tucorreo@ejemplo.com")
-            t = st.text_input("Teléfono", placeholder="WhatsApp")
-            o = st.text_input("¿Qué haces? (Ocupación)", placeholder="Ej: Músico, Diseñador...")
-            sub = st.form_submit_button("✅ UNIRME AHORA", use_container_width=True)
+            n = st.text_input("Nombre completo", placeholder="Tu nombre")
+            c = st.text_input("Email", placeholder="tucorreo@ejemplo.com")
+            t = st.text_input("WhatsApp", placeholder="+57...")
+            o = st.text_input("¿Qué haces?", placeholder="Ej: Artista, Diseñador")
+            sub = st.form_submit_button("✅ ENTRAR A LA FAMILIA", use_container_width=True)
+
         if sub:
             status = guardar(n, c, t, o, datetime.now().strftime('%Y-%m-%d'))
             if status == "success": st.balloons(); st.success("¡Bienvenido a la verdadera vuelta!")
-            elif status == "duplicate": st.warning("Tus datos ya están en la base.")
-            else: st.error("Completa los campos correctamente.")
+            elif status == "duplicate": st.warning("Tus datos ya están registrados.")
+            else: st.error("Faltan datos por completar.")
         st.markdown('</div></div>', unsafe_allow_html=True)
